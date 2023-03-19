@@ -3,10 +3,12 @@ package pl.gg.reklamy_zabd_be.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import pl.gg.reklamy_zabd_be.pojo.Seller;
 
 import java.util.List;
 
+@Repository
 public class JdbcSellerRepository implements SellerRepository{
 
     @Autowired

@@ -1,6 +1,7 @@
 package pl.gg.reklamy_zabd_be.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.repository.JdbcCompanyRepository;
@@ -10,10 +11,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CompanyService {
-
+    @Autowired
     JdbcCompanyRepository companyRepository;
 
     public List<Company> getAllCompanies() {
+
         return companyRepository.findAll();
     }
 
