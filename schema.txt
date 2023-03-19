@@ -1,0 +1,74 @@
+create table city
+(
+    id         integer default nextval('seq_city'::regclass) not null,
+    name       varchar(50),
+    population integer,
+    area       integer,
+    constraint city_pkey
+        primary key (id)
+);
+
+create table bank_account
+(
+    id                 integer default nextval('seq_bank_account'::regclass) not null,
+    credit_card_number varchar(16),
+    cvc                varchar(3),
+    status             boolean,
+    balance            real,
+    constraint bank_account_pkey
+        primary key (id)
+);
+
+create table company
+(
+    id              integer default nextval('seq_company'::regclass) not null,
+    name            varchar(50),
+    bank_account_id integer,
+    constraint company_pkey
+        primary key (id),
+    constraint fk_company_bank_account
+        foreign key (bank_account_id) references bank_account
+);
+
+create table seller
+(
+    id              integer default nextval('seq_seller'::regclass) not null,
+    name            varchar(40),
+    bank_account_id integer,
+    company_id      integer,
+    constraint sprzedawca_pkey
+        primary key (id),
+    constraint fk_seller_bank_account
+        foreign key (bank_account_id) references bank_account,
+    constraint fk_seller_company
+        foreign key (company_id) references company
+);
+
+create table product
+(
+    id        integer default nextval('seq_product'::regclass) not null,
+    name      varchar(50),
+    seller_id integer,
+    constraint product_pkey
+        primary key (id),
+    constraint fk_product_seller
+        foreign key (seller_id) references seller
+);
+
+create table campaign
+(
+    id            integer default nextval('seq_campaign'::regclass) not null,
+    keywords      varchar(255),
+    bid_amount    real,
+    campaign_fund real,
+    status        boolean,
+    city_id       integer,
+    radius        integer,
+    product_id    integer,
+    constraint campaign_pkey
+        primary key (id),
+    constraint fk_campaign_city
+        foreign key (city_id) references city,
+    constraint fk_campaign_product
+        foreign key (product_id) references product
+);
