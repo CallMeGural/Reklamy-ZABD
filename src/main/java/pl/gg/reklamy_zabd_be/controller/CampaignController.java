@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.Campaign;
+import pl.gg.reklamy_zabd_be.pojo.dto.CampaignDto;
 import pl.gg.reklamy_zabd_be.service.BankAccountService;
 import pl.gg.reklamy_zabd_be.service.CampaignService;
 
@@ -32,7 +33,7 @@ public class CampaignController {
     }
 
     @PutMapping
-    public int updateCompany(Campaign campaign) {
+    public int updateCompany(CampaignDto campaign) {
         return campaignService.updateCampaign(campaign);
     }
 

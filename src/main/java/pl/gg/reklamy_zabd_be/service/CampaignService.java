@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.Campaign;
+import pl.gg.reklamy_zabd_be.pojo.dto.CampaignDto;
 import pl.gg.reklamy_zabd_be.repository.JdbcBankAccountRepository;
 import pl.gg.reklamy_zabd_be.repository.JdbcCampaignRepository;
 
@@ -26,8 +27,13 @@ public class CampaignService {
         return campaignRepository.save(campaign);
     }
 
-    public int updateCampaign(Campaign campaign) {
-        return campaignRepository.update(campaign);
+    public int updateCampaign(CampaignDto dto) {
+        Campaign update = campaignRepository.findById(dto.getId());
+        if(!dto.getKeywords().equals(""))
+            update.setKeywords(dto.getKeywords());
+        if(dto.getCampaignFund()!=0)
+            update.setCampaignFund(dto.getCampaignFund());
+        return campaignRepository.update(dto);
     }
 
     public int deleteCampaignById(int id) {

@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import pl.gg.reklamy_zabd_be.pojo.Campaign;
 import pl.gg.reklamy_zabd_be.pojo.Company;
+import pl.gg.reklamy_zabd_be.pojo.dto.CampaignDto;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class JdbcCampaignRepository implements CampaignRepository {
     }
 
     @Override
-    public int update(Campaign campaign) {
+    public int update(CampaignDto campaign) {
         sql = "UPDATE campaign SET keywords=?, campaign_fund=? WHERE id=?";
         return jdbcTemplate.update(sql, campaign.getKeywords(),campaign.getCampaignFund(),campaign.getId());
 

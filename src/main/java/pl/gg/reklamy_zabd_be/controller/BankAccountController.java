@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.Company;
+import pl.gg.reklamy_zabd_be.pojo.dto.BankAccountDto;
 import pl.gg.reklamy_zabd_be.service.BankAccountService;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class BankAccountController {
     }
 
     @PutMapping
-    public int updateCompany(BankAccount bankAccount) {
+    public int updateCompany(BankAccountDto bankAccount) {
         return bankAccountService.updateBankAccount(bankAccount);
     }
 

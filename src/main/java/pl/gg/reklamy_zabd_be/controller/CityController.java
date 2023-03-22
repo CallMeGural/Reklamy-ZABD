@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.City;
+import pl.gg.reklamy_zabd_be.pojo.dto.CityDto;
 import pl.gg.reklamy_zabd_be.service.CityService;
 
 import java.util.ArrayList;
@@ -31,13 +32,13 @@ public class CityController {
     }
 
     @PutMapping
-    public int updateCity(City City) {
-        return cityService.updateCity(City);
+    public int updateCity(CityDto city) {
+        return cityService.updateCity(city);
     }
 
     @PostMapping
-    public int addCity(City City) {
-        return cityService.saveCity(City);
+    public int addCity(City city) {
+        return cityService.saveCity(city);
     }
 
     @DeleteMapping("/{id}")

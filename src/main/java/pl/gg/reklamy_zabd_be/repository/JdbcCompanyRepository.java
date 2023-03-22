@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import pl.gg.reklamy_zabd_be.pojo.Company;
+import pl.gg.reklamy_zabd_be.pojo.dto.CompanyDto;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class JdbcCompanyRepository implements CompanyRepository {
     }
 
     @Override
-    public int update(Company company) {
+    public int update(CompanyDto company) {
         sql = "UPDATE company SET name=?, bank_account_id=? WHERE id=?";
         return jdbcTemplate.update(sql, company.getName(),company.getBankAccId(),company.getId());
     }

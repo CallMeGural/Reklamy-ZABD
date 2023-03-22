@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.City;
+import pl.gg.reklamy_zabd_be.pojo.dto.CityDto;
 
 import java.util.List;
 
@@ -22,9 +23,9 @@ public class JdbcCityRepository implements CityRepository{
     }
 
     @Override
-    public int update(City city) {
+    public int update(CityDto city) {
         sql = "UPDATE city set population=? WHERE id=?";
-        return jdbcTemplate.update(sql, city.getPopulation());
+        return jdbcTemplate.update(sql, city.getPopulation(),city.getId());
 
     }
 

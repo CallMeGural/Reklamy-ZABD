@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gg.reklamy_zabd_be.pojo.Company;
+import pl.gg.reklamy_zabd_be.pojo.dto.CompanyDto;
 import pl.gg.reklamy_zabd_be.repository.JdbcCompanyRepository;
 
 import java.util.List;
@@ -27,8 +28,11 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public int updateCompany(Company company) {
-        return companyRepository.update(company);
+    public int updateCompany(CompanyDto dto) {
+        Company update = companyRepository.findById(dto.getId());
+        if(dto.getBankAccId()!=0) update.setBankAccId(dto.getBankAccId());
+        if(!dto.getName().equals("")) update.setName(dto.getName());
+        return companyRepository.update(dto);
     }
 
     public int deleteCompanyById(int id) {

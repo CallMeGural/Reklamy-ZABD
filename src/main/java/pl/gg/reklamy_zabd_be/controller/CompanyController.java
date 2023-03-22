@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.Company;
+import pl.gg.reklamy_zabd_be.pojo.dto.CompanyDto;
 import pl.gg.reklamy_zabd_be.repository.CompanyRepository;
 import pl.gg.reklamy_zabd_be.repository.JdbcCompanyRepository;
 import pl.gg.reklamy_zabd_be.service.CompanyService;
@@ -33,7 +34,7 @@ public class CompanyController {
     }
 
     @PutMapping
-    public int updateCompany(Company company) {
+    public int updateCompany(CompanyDto company) {
         return companyService.updateCompany(company);
     }
 

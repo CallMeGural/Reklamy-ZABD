@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.Company;
+import pl.gg.reklamy_zabd_be.pojo.dto.BankAccountDto;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class JdbcBankAccountRepository implements BankAccountRepository{
     }
 
     @Override
-    public int update(BankAccount acc) {
+    public int update(BankAccountDto acc) {
         sql = "UPDATE bank_account set credit_card_number=?, cvc=?, balance=? WHERE id=?";
         return jdbcTemplate.update(sql,acc.getCreditCardNumber(),acc.getCvc(),acc.getBalance(),acc.getId());
 

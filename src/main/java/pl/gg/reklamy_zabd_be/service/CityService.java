@@ -3,6 +3,7 @@ package pl.gg.reklamy_zabd_be.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gg.reklamy_zabd_be.pojo.City;
+import pl.gg.reklamy_zabd_be.pojo.dto.CityDto;
 import pl.gg.reklamy_zabd_be.repository.JdbcCityRepository;
 
 import java.util.List;
@@ -20,12 +21,15 @@ public class CityService {
         return cityRepository.findById(id);
     }
 
-    public int saveCity(City City) {
-        return cityRepository.save(City);
+    public int saveCity(City city) {
+        return cityRepository.save(city);
     }
 
-    public int updateCity(City City) {
-        return cityRepository.update(City);
+    public int updateCity(CityDto dto) {
+        City update = cityRepository.findById(dto.getId());
+        if(dto.getPopulation()!=0)
+            update.setPopulation(dto.getPopulation());
+        return cityRepository.update(dto);
     }
 
     public int deleteCityById(int id) {

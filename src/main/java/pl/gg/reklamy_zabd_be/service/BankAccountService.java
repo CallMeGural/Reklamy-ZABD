@@ -1,8 +1,11 @@
 package pl.gg.reklamy_zabd_be.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
+import pl.gg.reklamy_zabd_be.pojo.dto.BankAccountDto;
 import pl.gg.reklamy_zabd_be.repository.JdbcBankAccountRepository;
 
 import java.util.List;
@@ -24,8 +27,16 @@ public class BankAccountService {
         return bankAccountRepository.save(bankAccount);
     }
 
-    public int updateBankAccount(BankAccount bankAccount) {
-        return bankAccountRepository.update(bankAccount);
+    @Transactional
+    public int updateBankAccount(BankAccountDto dto) {
+        BankAccount update = getBankAccountById(dto.getId());
+        if(dto.getBalance()!=0.)
+            update.setBalance(dto.getBalance());
+        if(!dto.getCvc().equals(""))
+            update.setCvc(dto.getCvc());
+        if(!dto.getCreditCardNumber().equals(""))
+            update.setCreditCardNumber(dto.getCreditCardNumber());
+        return bankAccountRepository.update(dto);
     }
 
     public int deleteBankAccountById(int id) {
