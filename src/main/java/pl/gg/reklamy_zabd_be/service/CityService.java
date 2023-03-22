@@ -2,6 +2,7 @@ package pl.gg.reklamy_zabd_be.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gg.reklamy_zabd_be.pojo.City;
 import pl.gg.reklamy_zabd_be.pojo.dto.CityDto;
 import pl.gg.reklamy_zabd_be.repository.JdbcCityRepository;
@@ -25,6 +26,7 @@ public class CityService {
         return cityRepository.save(city);
     }
 
+    @Transactional
     public int updateCity(CityDto dto) {
         City update = cityRepository.findById(dto.getId());
         if(dto.getPopulation()!=0)

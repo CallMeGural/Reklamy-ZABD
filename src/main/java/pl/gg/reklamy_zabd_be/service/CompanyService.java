@@ -3,6 +3,7 @@ package pl.gg.reklamy_zabd_be.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.dto.CompanyDto;
 import pl.gg.reklamy_zabd_be.repository.JdbcCompanyRepository;
@@ -16,7 +17,6 @@ public class CompanyService {
     JdbcCompanyRepository companyRepository;
 
     public List<Company> getAllCompanies() {
-
         return companyRepository.findAll();
     }
 
@@ -28,6 +28,7 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
+    @Transactional
     public int updateCompany(CompanyDto dto) {
         Company update = companyRepository.findById(dto.getId());
         if(dto.getBankAccId()!=0) update.setBankAccId(dto.getBankAccId());
