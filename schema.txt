@@ -1,103 +1,97 @@
-create sequence seq_bank_account;
-
-create sequence seq_campaign;
-
-create sequence seq_city;
-
-create sequence seq_company;
-
-create sequence seq_product;
-
-create sequence seq_seller;
-
-create table city
-(
-    id         integer default nextval('seq_city'::regclass) not null,
-    name       varchar(50),
-    population integer,
-    area       integer,
-    constraint city_pkey
-        primary key (id)
-);
-
-alter sequence seq_city owned by city.id;
-
 create table bank_account
 (
-    id                 integer default nextval('seq_bank_account'::regclass) not null,
-    credit_card_number varchar(16),
-    cvc                varchar(3),
-    status             boolean,
-    balance            real,
+    id                 serial,
+    credit_card_number varchar(16)    not null,
+    cvc                varchar(3)     not null,
+    status             boolean        not null,
+    balance            numeric(10, 2) not null,
     constraint bank_account_pkey
         primary key (id)
 );
 
-alter sequence seq_bank_account owned by bank_account.id;
-
 create table company
 (
-    id              integer default nextval('seq_company'::regclass) not null,
-    name            varchar(50),
+    id              serial,
+    name            varchar(255) not null,
     bank_account_id integer,
     constraint company_pkey
         primary key (id),
-    constraint bank_account_unique
+    constraint company_bank_account_id_key
         unique (bank_account_id),
-    constraint fk_company_bank_account
+    constraint company_bank_account_id_fkey
         foreign key (bank_account_id) references bank_account
 );
-
-alter sequence seq_company owned by company.id;
 
 create table seller
 (
-    id              integer default nextval('seq_seller'::regclass) not null,
-    name            varchar(40),
-    bank_account_id integer,
-    company_id      integer,
-    constraint sprzedawca_pkey
+    id              serial,
+    name            varchar(255) not null,
+    bank_account_id integer      not null,
+    company_id      integer      not null,
+    constraint seller_pkey
         primary key (id),
-    constraint bank_account_seller_unique
-        unique (bank_account_id),
-    constraint fk_seller_company
-        foreign key (company_id) references company,
-    constraint fk_seller_bank_acc
-        foreign key (bank_account_id) references bank_account
+    constraint seller_bank_account_id_fkey
+        foreign key (bank_account_id) references bank_account,
+    constraint seller_company_id_fkey
+        foreign key (company_id) references company
 );
-
-alter sequence seq_seller owned by seller.id;
 
 create table product
 (
-    id        integer default nextval('seq_product'::regclass) not null,
-    name      varchar(50),
-    seller_id integer,
+    id        serial,
+    name      varchar(255) not null,
+    seller_id integer      not null,
     constraint product_pkey
         primary key (id),
-    constraint fk_table_seller
+    constraint product_seller_id_fkey
         foreign key (seller_id) references seller
-            on update cascade on delete cascade
 );
 
-alter sequence seq_product owned by product.id;
+create table city
+(
+    id         serial,
+    name       varchar(255)   not null,
+    population integer        not null,
+    area       numeric(10, 2) not null,
+    constraint city_pkey
+        primary key (id)
+);
 
 create table campaign
 (
-    id            integer default nextval('seq_campaign'::regclass) not null,
-    keywords      varchar(255),
-    bid_amount    real,
-    campaign_fund real,
-    status        boolean,
-    city_id       integer,
-    radius        integer,
-    product_id    integer,
+    id         serial,
+    keywords   varchar(255)         not null,
+    bid        numeric(10, 2)       not null,
+    fund       numeric(10, 2)       not null,
+    status     boolean default true not null,
+    radius     integer              not null,
+    city_id    integer              not null,
+    product_id integer              not null,
+    name       varchar(255)         not null,
     constraint campaign_pkey
         primary key (id),
-    constraint fk_campaign_product
-        foreign key (product_id) references product,
-    constraint fk_campaign_city
-        foreign key (city_id) references city
+    constraint campaign_city_id_fkey
+        foreign key (city_id) references city,
+    constraint campaign_product_id_fkey
+        foreign key (product_id) references product
 );
 
-alter sequence seq_campaign owned by campaign.id;
+create function update_status() returns trigger
+    language plpgsql
+as
+$$
+begin
+    if new.fund=0 then
+    update campaign set status=false where id=new.id;
+    return new;
+    end if;
+end;
+$$;
+
+create trigger update_status_trigger
+    after update
+        of fund
+    on campaign
+    for each row
+execute procedure update_status();
+
