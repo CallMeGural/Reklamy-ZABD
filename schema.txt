@@ -85,6 +85,7 @@ begin
     update campaign set status=false where id=new.id;
     return new;
     end if;
+    return old;
 end;
 $$;
 
