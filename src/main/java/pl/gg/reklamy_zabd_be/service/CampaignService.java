@@ -45,4 +45,8 @@ public class CampaignService {
     public int deleteAllCampaigns() {
         return campaignRepository.deleteAll();
     }
+
+    public int chargeCampaignWhenSiteOpened(int id) {
+        return campaignRepository.chargeCampaignById(id);
+    }
 }

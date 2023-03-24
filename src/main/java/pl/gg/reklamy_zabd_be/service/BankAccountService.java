@@ -45,4 +45,20 @@ public class BankAccountService {
     public int deleteAllBankAccounts() {
         return bankAccountRepository.deleteAll();
     }
+
+    @Transactional
+    public int sendMoneyToOtherBankAccount(int sendId, int receiveId, double balance) {
+        BankAccount sendBankAcc = bankAccountRepository.findById(sendId);
+        BankAccount receiveBankAcc = bankAccountRepository.findById(receiveId);
+        sendBankAcc.setBalance(sendBankAcc.getBalance()-balance);
+        bankAccountRepository.update(new BankAccountDto(sendBankAcc.getId(),
+                                                        sendBankAcc.getCreditCardNumber(),
+                                                        sendBankAcc.getCvc(),
+                                                        sendBankAcc.getBalance()));
+        receiveBankAcc.setBalance(receiveBankAcc.getBalance()+balance);
+        return bankAccountRepository.update(new BankAccountDto(receiveBankAcc.getId(),
+                                                                receiveBankAcc.getCreditCardNumber(),
+                                                                receiveBankAcc.getCvc(),
+                                                                receiveBankAcc.getBalance()));
+    }
 }

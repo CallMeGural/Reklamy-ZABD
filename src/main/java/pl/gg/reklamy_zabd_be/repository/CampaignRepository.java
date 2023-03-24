@@ -12,4 +12,6 @@ public interface CampaignRepository {
     int deleteById(int id);
     List<Campaign> findAll();
     int deleteAll();
+
+    int chargeCampaignById(int id);
 }

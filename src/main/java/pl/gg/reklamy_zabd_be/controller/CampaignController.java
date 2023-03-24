@@ -51,4 +51,9 @@ public class CampaignController {
     public int deleteAllCompanies() {
         return campaignService.deleteAllCampaigns();
     }
+
+    @PutMapping("/{id}")
+    public int chargeCampaignWhenSiteOpened(@PathVariable int id) {
+        return campaignService.chargeCampaignWhenSiteOpened(id);
+    }
 }
