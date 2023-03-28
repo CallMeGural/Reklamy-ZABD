@@ -1,9 +1,11 @@
 package pl.gg.reklamy_zabd_be.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.City;
 import pl.gg.reklamy_zabd_be.pojo.dto.CityDto;
@@ -20,35 +22,43 @@ public class CityController {
     @Autowired
     CityService cityService;
 
-    @GetMapping
-    public ResponseEntity<List<City>> getAllCities() {
-        List<City> cities = new ArrayList<>(cityService.getAllCities());
-        return ResponseEntity.ok(cities);
+    @GetMapping("/list")
+    public String getAllCities(Model model) {
+        model.addAttribute("cities", cityService.getAllCities());
+        return "cities_list";
     }
 
     @GetMapping("/{id}")
-    public City getCityById(@PathVariable int id) {
-        return cityService.getCityById(id);
+    public String getCityById(Model model, @PathVariable int id) {
+        City city = cityService.getCityById(id);
+        model.addAttribute("city", city);
+        return "city_edit";
     }
 
     @PutMapping
-    public int updateCity(CityDto city) {
-        return cityService.updateCity(city);
+    public String updateCity(@Valid @ModelAttribute("city") CityDto city,
+                             Model model) {
+        cityService.updateCity(city);
+        model.addAttribute("city", city);
+        return "city_edit";
     }
 
     @PostMapping
-    public int addCity(City city) {
-        return cityService.saveCity(city);
+    public String addCity(@Valid City city) {
+        cityService.saveCity(city);
+        return "redirect:/cities/list";
     }
 
     @DeleteMapping("/{id}")
-    public int deleteCityById(@PathVariable int id) {
-        return cityService.deleteCityById(id);
+    public String deleteCityById(@PathVariable int id) {
+        cityService.deleteCityById(id);
+        return "redirect:/cities/list";
     }
 
     @DeleteMapping
-    public int deleteAllCities() {
-        return cityService.deleteAllCities();
+    public String deleteAllCities() {
+        cityService.deleteAllCities();
+        return "redirect:index";
     }
 
 }

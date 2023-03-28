@@ -1,9 +1,11 @@
 package pl.gg.reklamy_zabd_be.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.dto.CompanyDto;
@@ -22,34 +24,42 @@ public class CompanyController {
     @Autowired
     CompanyService companyService;
 
-    @GetMapping
-    public ResponseEntity<List<Company>> getAllCompanies() {
-        List<Company> companies = new ArrayList<>(companyService.getAllCompanies());
-        return ResponseEntity.ok(companies);
+    @GetMapping("/list")
+    public String getAllCompanies(Model model) {
+        model.addAttribute("companies", companyService.getAllCompanies());
+        return "companies_list";
     }
 
     @GetMapping("/{id}")
-    public Company getCompanyById(@PathVariable int id) {
-        return companyService.getCompanyById(id);
+    public String getCompanyById(Model model, @PathVariable int id) {
+        Company company = companyService.getCompanyById(id);
+        model.addAttribute("company", company);
+        return "company_edit";
     }
 
     @PutMapping
-    public int updateCompany(CompanyDto company) {
-        return companyService.updateCompany(company);
+    public String updateCompany(@Valid @ModelAttribute("company") CompanyDto company,
+                             Model model) {
+        companyService.updateCompany(company);
+        model.addAttribute("company", company);
+        return "company_edit";
     }
 
     @PostMapping
-    public int addCompany(Company company) {
-        return companyService.saveCompany(company);
+    public String addCompany(@Valid Company company) {
+        companyService.saveCompany(company);
+        return "redirect:/companies/list";
     }
 
     @DeleteMapping("/{id}")
-    public int deleteCompanyById(@PathVariable int id) {
-        return companyService.deleteCompanyById(id);
+    public String deleteCompanyById(@PathVariable int id) {
+        companyService.deleteCompanyById(id);
+        return "redirect:/companies/list";
     }
 
     @DeleteMapping
-    public int deleteAllCompanies() {
-        return companyService.deleteAllCompanies();
+    public String deleteAllCompanies() {
+        companyService.deleteAllCompanies();
+        return "companies_list";
     }
 }

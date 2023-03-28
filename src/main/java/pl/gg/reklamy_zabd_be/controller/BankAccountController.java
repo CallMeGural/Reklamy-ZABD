@@ -1,14 +1,18 @@
 package pl.gg.reklamy_zabd_be.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.dto.BankAccountDto;
 import pl.gg.reklamy_zabd_be.service.BankAccountService;
+import org.springframework.ui.Model;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,40 +25,49 @@ public class BankAccountController {
     @Autowired
     BankAccountService bankAccountService;
 
-    @GetMapping
-    public ResponseEntity<List<BankAccount>> getAllCompanies() {
-        List<BankAccount> bankAccounts = new ArrayList<>(bankAccountService.getAllBankAccounts());
-        return ResponseEntity.ok(bankAccounts);
+    @GetMapping("/list")
+    public String getAllCompanies(Model model) {
+        List<BankAccount> bankAccounts = new ArrayList<>();
+        model.addAttribute("bankAccounts", bankAccountService.getAllBankAccounts());
+        return "banks_list";
     }
 
     @GetMapping("/{id}")
-    public BankAccount getCompanyById(@PathVariable int id) {
-        return bankAccountService.getBankAccountById(id);
+    public String getCompanyById(Model model, @PathVariable int id) {
+        BankAccount bank = bankAccountService.getBankAccountById(id);
+        model.addAttribute("bankAccount", bank);
+        return "bank_edit";
     }
 
     @PutMapping
-    public int updateCompany(BankAccountDto bankAccount) {
-        return bankAccountService.updateBankAccount(bankAccount);
+    public String updateCompany(@Valid @ModelAttribute("bank") BankAccountDto bankAccount, Model model) {
+        bankAccountService.updateBankAccount(bankAccount);
+        model.addAttribute("bank", bankAccount);
+        return "bank_edit";
     }
 
     @PostMapping
-    public int addCompany(BankAccount bankAccount) {
-        return bankAccountService.saveBankAccount(bankAccount);
+    public String addCompany(@Valid BankAccount bankAccount) {
+        bankAccountService.saveBankAccount(bankAccount);
+        return "redirect:/bank_accounts/list";
     }
 
     @DeleteMapping("/{id}")
-    public int deleteCompanyById(@PathVariable int id) {
-        return bankAccountService.deleteBankAccountById(id);
+    public String deleteCompanyById(@PathVariable int id) {
+        bankAccountService.deleteBankAccountById(id);
+        return "redirect:/bank_accounts/list";
     }
 
     @DeleteMapping
-    public int deleteAllCompanies() {
-        return bankAccountService.deleteAllBankAccounts();
+    public String deleteAllCompanies() {
+        bankAccountService.deleteAllBankAccounts();
+        return "redirect:index";
     }
 
     @PutMapping
-    public int sendMoneyToOtherBankAccount(int sendId, int receiveId, double balance) {
-        return bankAccountService.sendMoneyToOtherBankAccount(sendId,receiveId,balance);
+    public String sendMoneyToOtherBankAccount(int sendId, int receiveId, double balance) {
+        bankAccountService.sendMoneyToOtherBankAccount(sendId,receiveId,balance);
+        return "banks_list";
     }
 
 }

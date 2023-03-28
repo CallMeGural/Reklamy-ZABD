@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista kampanii</title>
+</head>
+
+<body>
+
+<h1>Lista kampanii</h1>
+
+<table>
+  <tr>
+    <th>Nazwa</th>
+    <th>Opłata</th>
+    <th>Dostępne środki</th>
+    <th>Status</th>
+    <th>Miasto</th>
+    <th>Obszar</th>
+    <th>Słowa kluczowe</th>
+    <th>Edytuj</th>
+    <th>Usuń</th>
+  </tr>
+  <tr th:each ="campaign : ${campaigns}">
+    <td th:text="${campaign.name}">NAME</td>
+    <td th:text="${campaign.bidAmount}">BID AMOUNT</td>
+    <td th:text="${campaign.campaignFund}">CAMPAIGN FUND</td>
+    <td th:text="${campaign.status}">STATUS</td>
+    <td th:text="${campaign.cityId}">TOWN</td>
+    <td th:text="${campaign.radius}">RADIUS</td>
+    <td th:text="${campaign.keywords}">KEYWORDS</td>
+    <td>
+      <a th:href="@{/campaigns/{id}(id=${campaign.id})}">
+        <input type="submit" value="Edytuj"/>
+      </a>
+    </td>
+    <td>
+      <form th:action="@{/campaigns/{id}(id=${campaign.id})}" th:method="DELETE">
+        <input type = "submit" th:value="Usuń"/>
+      </form>
+    </td>
+  </tr>
+</table>
+
+
+<a th:href="@{/}"><input type="submit" value="Menu"/></a>
+<a th:href="@{/campaigns}"><input type="submit" value="Utwórz nową kampanię"/></a>
+</body>
+
+</html>

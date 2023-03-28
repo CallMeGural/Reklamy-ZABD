@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Nowa kampania</title>
+</head>
+<body>
+
+<h1>Dodaj nową kampanię</h1>
+
+<form method="POST" th:action="@{/campaigns}" th:object="${campaign}">
+
+  <div th:if="${#fields.hasErrors()}">
+            <span class="validationError">
+                Wystapily bledy. Sprobuj ponownie.
+            </span>
+  </div>
+
+<!--  <label for="name">Nazwa kampanii: </label>-->
+<!--  <input type="text" th:field="*{name}"/>-->
+<!--  <span class="validationError"-->
+<!--        th:if="${#fields.hasErrors('name')}"-->
+<!--        th:errors="*{name}"></span>-->
+<!--  <br/>-->
+
+  <label for="bidAmount">Wartość oferty: </label>
+  <input  type="text" th:field="*{bidAmount}" placeholder="double"/>
+  <span class="validationError"
+        th:if="${#fields.hasErrors('bidAmount')}"
+        th:errors="*{bidAmount}"></span>
+  <br/>
+
+  <label for="campaignFund">Dostępne środki: </label>
+  <input  type="text" th:field="*{campaignFund}" placeholder="double"/>
+  <span class="validationError"
+        th:if="${#fields.hasErrors('campaignFund')}"
+        th:errors="*{campaignFund}"></span>
+  <br/>
+
+  <label th:for="${#ids.next('status')}">Status: </label>
+  <input type="checkbox" th:field="*{status}"/>
+  <span class="validationError"
+        th:if="${#fields.hasErrors('status')}"
+        th:errors="*{status}"></span>
+  <br/>
+
+  <label for="town">Miasto: </label>
+  <select th:field="*{town}">
+    <option th:each="town : ${towns}"
+            th:value="${town}"
+            th:text="${town}">MIASTO
+    </option>
+  </select>
+  <span class="validationError"
+        th:if="${#fields.hasErrors('town')}"
+        th:errors="*{town}"></span>
+  <br/>
+
+  <label for="radius">Promień: </label>
+  <input type="text" th:field="*{radius}"/>
+  <span class="validationError"
+        th:if="${#fields.hasErrors('radius')}"
+        th:errors="*{radius}"></span>
+  <br/>
+
+  <label for="keywords">Słowa kluczowe: </label>
+  <input type="text" th:field="*{keywords}"/>
+  <span class="validationError"
+        th:if="${#fields.hasErrors('keywords')}"
+        th:errors="*{keywords}"></span>
+  <br/>
+
+  <input type="submit" value="Utworz kampanie"/>
+</form>
+
+</body>
+</html>

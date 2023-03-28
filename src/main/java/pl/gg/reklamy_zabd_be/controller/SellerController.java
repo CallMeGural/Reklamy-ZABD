@@ -1,8 +1,10 @@
 package pl.gg.reklamy_zabd_be.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.Seller;
 import pl.gg.reklamy_zabd_be.service.SellerService;
@@ -18,32 +20,41 @@ public class SellerController {
     SellerService sellerService;
 
     @GetMapping
-    public List<Seller> getAllSellers() {
-        return sellerService.getAllSellers();
+    public String getAllSellers(Model model) {
+        model.addAttribute("sellers", sellerService.getAllSellers());
+        return "sellers_list";
     }
 
     @GetMapping("/{id}")
-    public Seller getSellerById(@PathVariable int id) {
-        return sellerService.getSellerById(id);
+    public String getSellerById(Model model, @PathVariable int id) {
+        Seller seller = sellerService.getSellerById(id);
+        model.addAttribute("seller", seller);
+        return "seller_edit";
     }
 
     @PutMapping
-    public int updateSeller(Seller seller) {
-        return sellerService.updateSeller(seller);
+    public String updateSeller(@Valid @ModelAttribute("seller") Seller seller,
+                               Model model) {
+        sellerService.updateSeller(seller);
+        model.addAttribute("seller", seller);
+        return "seller_edit";
     }
 
     @PostMapping
-    public int addSeller(Seller seller) {
-        return sellerService.saveSeller(seller);
+    public String addSeller(@Valid Seller seller) {
+        sellerService.saveSeller(seller);
+        return "redirect:/sellers/list";
     }
 
     @DeleteMapping("/{id}")
-    public int deleteSellerById(@PathVariable int id) {
-        return sellerService.deleteSellerById(id);
+    public String deleteSellerById(@PathVariable int id) {
+        sellerService.deleteSellerById(id);
+        return "redirect:/sellers/list";
     }
 
     @DeleteMapping
-    public int deleteAllSellers() {
-        return sellerService.deleteAllSellers();
+    public String deleteAllSellers() {
+        sellerService.deleteAllSellers();
+        return "redirect:index";
     }
 }

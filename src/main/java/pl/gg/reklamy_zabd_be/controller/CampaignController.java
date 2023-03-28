@@ -1,18 +1,20 @@
 package pl.gg.reklamy_zabd_be.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.Campaign;
+import pl.gg.reklamy_zabd_be.pojo.City;
 import pl.gg.reklamy_zabd_be.pojo.dto.CampaignDto;
+import pl.gg.reklamy_zabd_be.repository.CampaignRepository;
 import pl.gg.reklamy_zabd_be.service.BankAccountService;
 import pl.gg.reklamy_zabd_be.service.CampaignService;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.ui.Model;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,39 +23,53 @@ public class CampaignController {
     @Autowired
     CampaignService campaignService;
 
-    @GetMapping
-    public ResponseEntity<List<Campaign>> getAllCompanies() {
-        List<Campaign> campaigns = new ArrayList<>(campaignService.getAllCampaigns());
-        return ResponseEntity.ok(campaigns);
+    @Autowired
+    private final CampaignRepository campaignRepository;
+
+    @GetMapping("/list")
+    public String getAllCompanies(Model model) {
+        model.addAttribute("campaigns",campaignService.getAllCampaigns());
+        return "campaigns_list";
     }
 
     @GetMapping("/{id}")
-    public Campaign getCompanyById(@PathVariable int id) {
-        return campaignService.getCampaignById(id);
-    }
-
-    @PutMapping
-    public int updateCompany(CampaignDto campaign) {
-        return campaignService.updateCampaign(campaign);
-    }
-
-    @PostMapping
-    public int addCompany(Campaign campaign) {
-        return campaignService.saveCampaign(campaign);
-    }
-
-    @DeleteMapping("/{id}")
-    public int deleteCompanyById(@PathVariable int id) {
-        return campaignService.deleteCampaignById(id);
-    }
-
-    @DeleteMapping
-    public int deleteAllCompanies() {
-        return campaignService.deleteAllCampaigns();
+    public String getCompanyById(Model model, @PathVariable int id) {
+        Campaign campaign = campaignService.getCampaignById(id);
+        model.addAttribute("campaign", campaign);
+        return "campaign_edit";
     }
 
     @PutMapping("/{id}")
-    public int chargeCampaignWhenSiteOpened(@PathVariable int id) {
-        return campaignService.chargeCampaignWhenSiteOpened(id);
+    public String updateCompany(@Valid @ModelAttribute("campaign") CampaignDto campaign,
+                                Model model) {
+        campaignService.updateCampaign(campaign);
+        model.addAttribute("campaign", campaign);
+        return "campaign_edit";
+    }
+
+    @PostMapping
+    public String addCompany(@Valid Campaign campaign,
+                             Errors errors) {
+        if(errors.hasErrors()) return "campaign_form";
+        campaignService.saveCampaign(campaign);
+        return "redirect:/campaigns/list";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteCompanyById(@PathVariable int id) {
+        campaignService.deleteCampaignById(id);
+        return "redirect:/campaigns/list";
+    }
+
+    @DeleteMapping
+    public String deleteAllCompanies() {
+        campaignService.deleteAllCampaigns();
+        return "redirect:/campaigns/list";
+    }
+
+    @PutMapping("/{id}")
+    public String chargeCampaignWhenSiteOpened(@PathVariable int id) {
+        campaignService.chargeCampaignWhenSiteOpened(id);
+        return "campaigns_list";
     }
 }
