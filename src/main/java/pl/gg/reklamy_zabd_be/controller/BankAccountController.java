@@ -52,7 +52,7 @@ public class BankAccountController {
         return bankAccountService.deleteAllBankAccounts();
     }
 
-    @PutMapping
+    @PutMapping("/transfer")
     public int sendMoneyToOtherBankAccount(int sendId, int receiveId, double balance) {
         return bankAccountService.sendMoneyToOtherBankAccount(sendId,receiveId,balance);
     }
