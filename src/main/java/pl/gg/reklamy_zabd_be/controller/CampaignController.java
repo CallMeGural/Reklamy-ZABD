@@ -2,11 +2,14 @@ package pl.gg.reklamy_zabd_be.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.iban4j.CountryCode;
+import org.iban4j.Iban;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.Campaign;
-import pl.gg.reklamy_zabd_be.pojo.dto.CampaignDto;
+import pl.gg.reklamy_zabd_be.service.BankAccountService;
 import pl.gg.reklamy_zabd_be.service.CampaignService;
 import org.springframework.ui.Model;
 import pl.gg.reklamy_zabd_be.service.CityService;
@@ -22,9 +25,8 @@ public class CampaignController {
     private final CityService cityService;
 
     @GetMapping("/list")
-    public String getAllCompanies(Model model) {
+    public String getAllCampaigns(Model model) {
         model.addAttribute("campaigns",campaignService.getAllCampaigns());
-        System.out.println(campaignService.getAllCampaigns());
         return "campaigns_list";
     }
 
@@ -37,7 +39,7 @@ public class CampaignController {
     }
 
     @GetMapping("/{id}")
-    public String getCompanyById(Model model, @PathVariable int id) {
+    public String getCampaignById(Model model, @PathVariable int id) {
         Campaign campaign = campaignService.getCampaignById(id);
         model.addAttribute("campaign", campaign);
         System.out.println(cityService.getAllCities());
@@ -47,14 +49,14 @@ public class CampaignController {
     }
 
     @PutMapping("/{id}")
-    public String updateCompany(@Valid Campaign campaign, Errors errors) {
+    public String updateCampaign(@Valid Campaign campaign, Errors errors) {
         if(errors.hasErrors()) return "campaign_edit";
         campaignService.updateCampaign(campaign);
         return "redirect:/campaigns/list";
     }
 
     @PostMapping
-    public String addCompany(@Valid Campaign campaign,
+    public String addCampaign(@Valid Campaign campaign,
                              Errors errors) {
         if(errors.hasErrors()) return "campaign_form";
         campaignService.saveCampaign(campaign);
@@ -62,13 +64,13 @@ public class CampaignController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteCompanyById(@PathVariable int id) {
+    public String deleteCampaignyById(@PathVariable int id) {
         campaignService.deleteCampaignById(id);
         return "redirect:/campaigns/list";
     }
 
     @DeleteMapping
-    public String deleteAllCompanies() {
+    public String deleteAllCampaigns() {
         campaignService.deleteAllCampaigns();
         return "redirect:/campaigns/list";
     }

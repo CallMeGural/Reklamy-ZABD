@@ -12,6 +12,7 @@ import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.dto.BankAccountDto;
 import pl.gg.reklamy_zabd_be.service.BankAccountService;
 import org.springframework.ui.Model;
+import pl.gg.reklamy_zabd_be.service.CompanyService;
 
 
 import java.util.ArrayList;
@@ -23,44 +24,49 @@ import java.util.List;
 public class BankAccountController {
 
     private final BankAccountService bankAccountService;
+    private final CompanyService companyService;
 
     @GetMapping("/list")
-    public String getAllCompanies(Model model) {
-        List<BankAccount> bankAccounts = new ArrayList<>();
+    public String getAllBankAccounts(Model model) {
         model.addAttribute("bankAccounts", bankAccountService.getAllBankAccounts());
-        return "banks_list";
+        return "bank_account_list";
+    }
+
+    @GetMapping
+    public String bankAccountForm(Model model) {
+        model.addAttribute("bankAccount",new BankAccount());
+        model.addAttribute("companies",companyService.getAllCompanies());
+        return "bank_form";
     }
 
     @GetMapping("/{id}")
-    public String getCompanyById(Model model, @PathVariable int id) {
+    public String getBankAccountById(Model model, @PathVariable int id) {
         BankAccount bank = bankAccountService.getBankAccountById(id);
         model.addAttribute("bankAccount", bank);
+        model.addAttribute("companies",companyService.getAllCompanies());
         return "bank_edit";
     }
 
     @PutMapping
-    public String updateCompany(@Valid @ModelAttribute("bank") BankAccountDto bankAccount, Model model) {
+    public String updateBankAccount(
+            @Valid @ModelAttribute("bank") BankAccountDto bankAccount,
+            Errors errors) {
+        if(errors.hasErrors()) return "bank_edit";
         bankAccountService.updateBankAccount(bankAccount);
-        model.addAttribute("bank", bankAccount);
-        return "bank_edit";
-    }
-
-    @PostMapping
-    public String addCompany(@Valid BankAccount bankAccount) {
-        bankAccountService.saveBankAccount(bankAccount);
         return "redirect:/bank_accounts/list";
     }
 
+
     @DeleteMapping("/{id}")
-    public String deleteCompanyById(@PathVariable int id) {
+    public String deleteBankAccountById(@PathVariable int id) {
         bankAccountService.deleteBankAccountById(id);
         return "redirect:/bank_accounts/list";
     }
 
     @DeleteMapping
-    public String deleteAllCompanies() {
+    public String deleteAllBankAccounts() {
         bankAccountService.deleteAllBankAccounts();
-        return "redirect:index";
+        return "redirect:/";
     }
 
     @PutMapping("/transfer")
