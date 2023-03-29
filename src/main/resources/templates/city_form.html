@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+        lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nowe miasto</title>
+</head>
+<body>
+
+<h1> Dodaj nowe miasto </h1>
+
+<form method="POST" th:action="@{/cities}" th:object="${city}">
+    <div th:if="${#fields.hasErrors()}">
+            <span class="validationError">
+                Wystapily bledy. Sprobuj ponownie.
+            </span>
+    </div>
+
+    <label for="name">Nazwa miasta: </label>
+    <input type="text" th:field="*{name}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}"></span>
+    <br/>
+
+    <label for="population">Zaludnienie: </label>
+    <input type="text" th:field="*{population}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('population')}"
+          th:errors="*{population}"></span>
+    <br/>
+
+    <label for="area">Obszar: </label>
+    <input type="text" th:field="*{area}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('area')}"
+          th:errors="*{area}"></span>
+    <br/>
+    <input type="submit" value="Utworz miasto"/>
+</form>
+
+</body>
+</html>
