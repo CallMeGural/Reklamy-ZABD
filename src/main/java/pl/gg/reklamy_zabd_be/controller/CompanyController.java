@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.dto.CompanyDto;
 import pl.gg.reklamy_zabd_be.repository.CompanyRepository;
-import pl.gg.reklamy_zabd_be.repository.JdbcCompanyRepository;
 import pl.gg.reklamy_zabd_be.service.CompanyService;
 
 import java.util.ArrayList;
@@ -21,8 +20,7 @@ import java.util.List;
 @RequestMapping("/companies")
 public class CompanyController {
 
-    @Autowired
-    CompanyService companyService;
+    private final CompanyService companyService;
 
     @GetMapping("/list")
     public String getAllCompanies(Model model) {

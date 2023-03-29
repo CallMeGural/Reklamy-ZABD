@@ -16,8 +16,8 @@ import java.util.List;
 @RequestMapping("/sellers")
 public class SellerController {
 
-    @Autowired
-    SellerService sellerService;
+
+    private final SellerService sellerService;
 
     @GetMapping
     public String getAllSellers(Model model) {

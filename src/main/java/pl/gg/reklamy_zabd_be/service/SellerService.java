@@ -12,30 +12,29 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SellerService {
-    @Autowired
-    SellerRepository sellerRepository;
+    private final SellerRepository sellerRepository;
 
     public List<Seller> getAllSellers() {
         return sellerRepository.findAll();
     }
 
     public Seller getSellerById(int id) {
-        return sellerRepository.findById(id);
+        return sellerRepository.findById(id).orElseThrow();
     }
 
-    public int saveSeller(Seller seller) {
+    public Seller saveSeller(Seller seller) {
         return sellerRepository.save(seller);
     }
 
-    public int updateSeller(Seller seller) {
-        return sellerRepository.update(seller);
+    public Seller updateSeller(Seller seller) {
+        return sellerRepository.save(seller);
     }
 
-    public int deleteSellerById(int id) {
-        return sellerRepository.deleteById(id);
+    public void deleteSellerById(int id) {
+         sellerRepository.deleteById(id);
     }
 
-    public int deleteAllSellers() {
-        return sellerRepository.deleteAll();
+    public void deleteAllSellers() {
+         sellerRepository.deleteAll();
     }
 }

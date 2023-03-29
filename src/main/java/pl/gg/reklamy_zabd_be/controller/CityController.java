@@ -19,8 +19,7 @@ import java.util.List;
 @RequestMapping("/cities")
 public class CityController {
 
-    @Autowired
-    CityService cityService;
+    private final CityService cityService;
 
     @GetMapping("/list")
     public String getAllCities(Model model) {

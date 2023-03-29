@@ -6,41 +6,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.dto.CompanyDto;
-import pl.gg.reklamy_zabd_be.repository.JdbcCompanyRepository;
+import pl.gg.reklamy_zabd_be.repository.CompanyRepository;;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CompanyService {
-    @Autowired
-    JdbcCompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
 
     public List<Company> getAllCompanies() {
         return companyRepository.findAll();
     }
 
     public Company getCompanyById(int id) {
-        return companyRepository.findById(id);
+        return companyRepository.findById(id).orElseThrow();
     }
 
-    public int saveCompany(Company company) {
+    public Company saveCompany(Company company) {
         return companyRepository.save(company);
     }
 
     @Transactional
-    public int updateCompany(CompanyDto dto) {
-        Company update = companyRepository.findById(dto.getId());
+    public Company updateCompany(CompanyDto dto) {
+        Company update = companyRepository.findById(dto.getId()).orElseThrow();
         if(dto.getBankAccId()!=0) update.setBankAccId(dto.getBankAccId());
         if(!dto.getName().equals("")) update.setName(dto.getName());
-        return companyRepository.update(dto);
+        return companyRepository.save(update);
     }
 
-    public int deleteCompanyById(int id) {
-        return companyRepository.deleteById(id);
+    public void deleteCompanyById(int id) {
+         companyRepository.deleteById(id);
     }
 
-    public int deleteAllCompanies() {
-        return companyRepository.deleteAll();
+    public void deleteAllCompanies() {
+         companyRepository.deleteAll();
     }
 }

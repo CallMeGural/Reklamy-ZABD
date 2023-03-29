@@ -19,17 +19,19 @@
     <th>Miasto</th>
     <th>Obszar</th>
     <th>Słowa kluczowe</th>
+    <th>Produkt</th>
     <th>Edytuj</th>
     <th>Usuń</th>
   </tr>
   <tr th:each ="campaign : ${campaigns}">
     <td th:text="${campaign.name}">NAME</td>
-    <td th:text="${campaign.bidAmount}">BID AMOUNT</td>
-    <td th:text="${campaign.campaignFund}">CAMPAIGN FUND</td>
+    <td th:text="${campaign.bid}">BID AMOUNT</td>
+    <td th:text="${campaign.fund}">CAMPAIGN FUND</td>
     <td th:text="${campaign.status}">STATUS</td>
     <td th:text="${campaign.city}">TOWN</td>
     <td th:text="${campaign.radius}">RADIUS</td>
     <td th:text="${campaign.keywords}">KEYWORDS</td>
+    <td th:text="${campaign.product}">PRODUCT</td>
     <td>
       <a th:href="@{/campaigns/{id}(id=${campaign.id})}">
         <input type="submit" value="Edytuj"/>

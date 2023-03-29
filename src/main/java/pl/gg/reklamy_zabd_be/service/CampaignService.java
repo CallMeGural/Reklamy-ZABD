@@ -1,52 +1,59 @@
 package pl.gg.reklamy_zabd_be.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.Campaign;
 import pl.gg.reklamy_zabd_be.pojo.dto.CampaignDto;
-import pl.gg.reklamy_zabd_be.repository.JdbcBankAccountRepository;
-import pl.gg.reklamy_zabd_be.repository.JdbcCampaignRepository;
+import pl.gg.reklamy_zabd_be.repository.CampaignRepository;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CampaignService {
-    @Autowired
-    JdbcCampaignRepository campaignRepository;
+
+    private final CampaignRepository campaignRepository;
 
     public List<Campaign> getAllCampaigns() {
         return campaignRepository.findAll();
     }
 
     public Campaign getCampaignById(int id) {
-        return campaignRepository.findById(id);
+        return campaignRepository.findById(id).orElseThrow();
     }
 
-    public int saveCampaign(Campaign campaign) {
+    public Campaign saveCampaign(Campaign campaign) {
         return campaignRepository.save(campaign);
     }
 
     @Transactional
-    public int updateCampaign(CampaignDto dto) {
-        Campaign update = campaignRepository.findById(dto.getId());
-        if(!dto.getKeywords().equals(""))
+    public Campaign updateCampaign(Campaign dto) {
+        Campaign update = campaignRepository.findById(dto.getId()).orElseThrow();
+//        if(!dto.getName().equals(""))
+            update.setName(dto.getName());
+//        if(!dto.getKeywords().equals(""))
             update.setKeywords(dto.getKeywords());
-        if(dto.getCampaignFund()!=0)
-            update.setFund(dto.getCampaignFund());
-        return campaignRepository.update(dto);
+//        if(dto.getFund()!=0)
+            update.setFund(dto.getFund());
+
+            update.setKeywords(dto.getKeywords());
+            update.setStatus(dto.isStatus());
+            update.setCity(dto.getCity());
+            //update.setProduct(dto.getProduct());
+            update.setRadius(dto.getRadius());
+        return campaignRepository.save(update);
     }
 
-    public int deleteCampaignById(int id) {
-        return campaignRepository.deleteById(id);
+    public void deleteCampaignById(int id) {
+         campaignRepository.deleteById(id);
     }
 
-    public int deleteAllCampaigns() {
-        return campaignRepository.deleteAll();
+    public void deleteAllCampaigns() {
+         campaignRepository.deleteAll();
     }
 
-    public int chargeCampaignWhenSiteOpened(int id) {
-        return campaignRepository.chargeCampaignById(id);
+    public void chargeCampaignWhenSiteOpened(int id) {
+        System.out.println("hello");
     }
 }

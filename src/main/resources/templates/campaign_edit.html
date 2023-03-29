@@ -34,6 +34,21 @@
       </td>
     </tr>
     <tr>
+      <td>Produkt</td>
+      <td>:</td>
+      <td>
+        <select th:field="*{product}">
+          <option th:each="product : ${products}"
+                  th:value="${product.id}"
+                  th:text="${product}">PRODUKT
+          </option>
+        </select>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('product')}"
+              th:errors="*{product}"></span>
+      </td>
+    </tr>
+    <tr>
       <td>Opłata</td>
       <td>:</td>
       <td>
@@ -59,7 +74,7 @@
       <td>
         <select th:field="*{city}">
           <option th:each="city : ${cities}"
-                  th:value="${city}"
+                  th:value="${city.id}"
                   th:text="${city}">MIASTO
           </option>
         </select>
