@@ -28,6 +28,14 @@ public class CampaignController {
         return "campaigns_list";
     }
 
+    @GetMapping
+    public String campaignForm(Model model) {
+        model.addAttribute("campaign",new Campaign());
+        model.addAttribute("cities",cityService.getAllCities());
+        model.addAttribute("products",productService.getAllProducts());
+        return "campaign_form";
+    }
+
     @GetMapping("/{id}")
     public String getCompanyById(Model model, @PathVariable int id) {
         Campaign campaign = campaignService.getCampaignById(id);
@@ -39,9 +47,9 @@ public class CampaignController {
     }
 
     @PutMapping("/{id}")
-    public String updateCompany(@Valid Campaign campaign) {
+    public String updateCompany(@Valid Campaign campaign, Errors errors) {
+        if(errors.hasErrors()) return "campaign_edit";
         campaignService.updateCampaign(campaign);
-
         return "redirect:/campaigns/list";
     }
 
