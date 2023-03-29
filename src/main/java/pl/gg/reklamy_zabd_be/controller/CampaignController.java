@@ -69,7 +69,7 @@ public class CampaignController {
         return "redirect:/campaigns/list";
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/charge/{id}")
     public String chargeCampaignWhenSiteOpened(@PathVariable int id) {
         campaignService.chargeCampaignWhenSiteOpened(id);
         return "campaigns_list";

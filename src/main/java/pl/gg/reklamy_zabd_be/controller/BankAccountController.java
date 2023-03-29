@@ -64,16 +64,9 @@ public class BankAccountController {
         return "redirect:index";
     }
 
-<<<<<<< HEAD
-    @PutMapping
-    public String sendMoneyToOtherBankAccount(int sendId, int receiveId, double balance) {
-        bankAccountService.sendMoneyToOtherBankAccount(sendId,receiveId,balance);
-        return "banks_list";
-=======
     @PutMapping("/transfer")
-    public int sendMoneyToOtherBankAccount(int sendId, int receiveId, double balance) {
-        return bankAccountService.sendMoneyToOtherBankAccount(sendId,receiveId,balance);
->>>>>>> b03ab87a0d8847b45cacfb19dab7f0e7789a2bf2
+    public String sendMoneyToOtherBankAccount(int sendId, int receiveId, double balance) {
+        bankAccountService.sendMoneyToOtherBankAccount(sendId, receiveId, balance);
+        return "banks_list";
     }
-
 }

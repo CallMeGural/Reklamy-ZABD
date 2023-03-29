@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+        lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nowa firma</title>
+</head>
+<body>
+
+<h1> Dodaj nowa firme </h1>
+
+<form method="POST" th:action="@{/companies}" th:object="${company}">
+    <div th:if="${#fields.hasErrors()}">
+            <span class="validationError">
+                Wystapily bledy. Sprobuj ponownie.
+            </span>
+    </div>
+
+    <label for="name">Nazwa firmy: </label>
+    <input type="text" th:field="*{name}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}"></span>
+    <br/>
+
+    <label for="bank_account_id">Konto bankowe: </label>
+    <input type="text" th:field="*{bank_account_id}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('bank_account_id')}"
+          th:errors="*{bank_account_id}"></span>
+    <br/>
+    <input type="submit" value="Utworz firme"/>
+</form>
+
+</body>
+</html>
