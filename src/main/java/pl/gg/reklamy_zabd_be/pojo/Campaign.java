@@ -1,6 +1,7 @@
 package pl.gg.reklamy_zabd_be.pojo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ public class Campaign {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+    @NotBlank(message = "Nazwa nie może być pusta")
     String name;
     String keywords;
     double bid;

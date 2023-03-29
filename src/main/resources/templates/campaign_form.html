@@ -24,17 +24,17 @@
 <!--  <br/>-->
 
   <label for="bidAmount">Wartość oferty: </label>
-  <input  type="text" th:field="*{bidAmount}" placeholder="double"/>
+  <input  type="text" th:field="*{bid}" placeholder="double"/>
   <span class="validationError"
-        th:if="${#fields.hasErrors('bidAmount')}"
-        th:errors="*{bidAmount}"></span>
+        th:if="${#fields.hasErrors('bid')}"
+        th:errors="*{bid}"></span>
   <br/>
 
   <label for="campaignFund">Dostępne środki: </label>
-  <input  type="text" th:field="*{campaignFund}" placeholder="double"/>
+  <input  type="text" th:field="*{fund}" placeholder="double"/>
   <span class="validationError"
-        th:if="${#fields.hasErrors('campaignFund')}"
-        th:errors="*{campaignFund}"></span>
+        th:if="${#fields.hasErrors('fund')}"
+        th:errors="*{fund}"></span>
   <br/>
 
   <label th:for="${#ids.next('status')}">Status: </label>
@@ -47,7 +47,7 @@
   <label for="city">Miasto: </label>
   <select th:field="*{city}">
     <option th:each="city : ${cities}"
-            th:value="${city}"
+            th:value="${city.id}"
             th:text="${city}">MIASTO
     </option>
   </select>

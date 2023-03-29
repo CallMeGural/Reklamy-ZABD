@@ -6,11 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.Campaign;
+import pl.gg.reklamy_zabd_be.pojo.City;
 import pl.gg.reklamy_zabd_be.pojo.dto.CampaignDto;
 import pl.gg.reklamy_zabd_be.service.CampaignService;
 import org.springframework.ui.Model;
 import pl.gg.reklamy_zabd_be.service.CityService;
 import pl.gg.reklamy_zabd_be.service.ProductService;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,9 +42,9 @@ public class CampaignController {
     }
 
     @PutMapping("/{id}")
-    public String updateCompany(@Valid Campaign campaign) {
+    public String updateCompany(@Valid Campaign campaign, Errors errors) {
+        if(errors.hasErrors()) return "campaign_edit";
         campaignService.updateCampaign(campaign);
-
         return "redirect:/campaigns/list";
     }
 
