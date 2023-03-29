@@ -57,15 +57,15 @@
       <td>Miasto</td>
       <td>:</td>
       <td>
-        <select th:field="*{cityId}">
+        <select th:field="*{city}">
           <option th:each="city : ${cities}"
-                  th:value="${cityId}"
-                  th:text="${cityId}">MIASTO
+                  th:value="${city}"
+                  th:text="${city}">MIASTO
           </option>
         </select>
         <span class="validationError"
-              th:if="${#fields.hasErrors('cityId')}"
-              th:errors="*{cityId}"></span>
+              th:if="${#fields.hasErrors('city')}"
+              th:errors="*{city}"></span>
       </td>
     </tr>
     <tr>
