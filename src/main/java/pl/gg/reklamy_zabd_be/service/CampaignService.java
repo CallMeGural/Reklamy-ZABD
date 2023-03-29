@@ -34,7 +34,7 @@ public class CampaignService {
         if(!dto.getKeywords().equals(""))
             update.setKeywords(dto.getKeywords());
         if(dto.getCampaignFund()!=0)
-            update.setCampaignFund(dto.getCampaignFund());
+            update.setFund(dto.getCampaignFund());
         return campaignRepository.update(dto);
     }
 

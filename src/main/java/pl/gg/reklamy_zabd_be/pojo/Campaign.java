@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;;
 public class Campaign {
     int id;
     String keywords;
-    double bidAmount;
-    double campaignFund;
+    double bid;
+    double fund;
     boolean status;
     int cityId;
     int radius;
@@ -20,8 +20,8 @@ public class Campaign {
     public Campaign(int id, String keywords, double bidAmount, double campaignFund, int cityId, int radius, int productId) {
         this.id = id;
         this.keywords = keywords;
-        this.bidAmount = bidAmount;
-        this.campaignFund = campaignFund;
+        this.bid = bidAmount;
+        this.fund = campaignFund;
         this.status = true;
         this.cityId = cityId;
         this.radius = radius;

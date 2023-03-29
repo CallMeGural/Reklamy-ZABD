@@ -19,7 +19,7 @@ public class JdbcCampaignRepository implements CampaignRepository {
     @Override
     public int save(Campaign campaign) {
         sql = "INSERT INTO campaign(keywords,bid,fund,city_id,radius,product_id) VALUES(?,?,?,?,?,?)";
-        return jdbcTemplate.update(sql, campaign.getKeywords(), campaign.getBidAmount(),campaign.getCampaignFund(),campaign.getCityId(),campaign.getRadius(),campaign.getProductId());
+        return jdbcTemplate.update(sql, campaign.getKeywords(), campaign.getBid(),campaign.getFund(),campaign.getCityId(),campaign.getRadius(),campaign.getProductId());
 
     }
 
