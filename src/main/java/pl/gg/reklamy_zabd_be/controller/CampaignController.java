@@ -15,6 +15,7 @@ import pl.gg.reklamy_zabd_be.repository.CampaignRepository;
 import pl.gg.reklamy_zabd_be.service.BankAccountService;
 import pl.gg.reklamy_zabd_be.service.CampaignService;
 import org.springframework.ui.Model;
+import pl.gg.reklamy_zabd_be.service.CityService;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class CampaignController {
     CampaignService campaignService;
 
     @Autowired
-    private final CampaignRepository campaignRepository;
+    private final CityService cityService;
 
     @GetMapping("/list")
     public String getAllCompanies(Model model) {
@@ -36,6 +37,7 @@ public class CampaignController {
     public String getCompanyById(Model model, @PathVariable int id) {
         Campaign campaign = campaignService.getCampaignById(id);
         model.addAttribute("campaign", campaign);
+        model.addAttribute("cities", cityService.getAllCities());
         return "campaign_edit";
     }
 

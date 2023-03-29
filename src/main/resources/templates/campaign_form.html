@@ -44,16 +44,16 @@
         th:errors="*{status}"></span>
   <br/>
 
-  <label for="town">Miasto: </label>
-  <select th:field="*{town}">
-    <option th:each="town : ${towns}"
-            th:value="${town}"
-            th:text="${town}">MIASTO
+  <label for="city">Miasto: </label>
+  <select th:field="*{city}">
+    <option th:each="city : ${cities}"
+            th:value="${city}"
+            th:text="${city}">MIASTO
     </option>
   </select>
   <span class="validationError"
-        th:if="${#fields.hasErrors('town')}"
-        th:errors="*{town}"></span>
+        th:if="${#fields.hasErrors('city')}"
+        th:errors="*{city}"></span>
   <br/>
 
   <label for="radius">Promień: </label>
