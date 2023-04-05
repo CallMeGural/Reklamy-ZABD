@@ -17,5 +17,9 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String name;
-    int bankAccId;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

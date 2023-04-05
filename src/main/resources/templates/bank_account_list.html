@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista kart kredytowych</title>
+</head>
+
+<body>
+
+<h1>Lista kart kredytowych</h1>
+
+<table>
+    <tr>
+        <th>Nazwa firmy</th>
+        <th>Nr karty kredytowej</th>
+        <th>CVC</th>
+        <th>Status</th>
+        <th>Środki</th>
+        <th>Edytuj</th>
+        <th>Usuń</th>
+    </tr>
+    <tr th:each ="bankAcc : ${bankAccounts}">
+        <td th:text="${bankAcc.company}">COMPANY</td>
+        <td th:text="${bankAcc.creditCardNumber}">CREDITCARD</td>
+        <td th:text="${bankAcc.cvc}">CVC</td>
+        <td th:text="${bankAcc.status}">STATUS</td>
+        <td th:text="${bankAcc.balance}">BALANCE</td>
+        <td>
+            <a th:href="@{/bank-accounts/{id}(id=${bankAcc.id})}">
+                <input type="submit" value="Edytuj"/>
+            </a>
+        </td>
+        <td>
+            <form th:action="@{/bank-accounts/{id}(id=${bankAcc.id})}" th:method="DELETE">
+                <input type = "submit" value="Usuń"/>
+            </form>
+        </td>
+    </tr>
+</table>
+
+
+<a th:href="@{/}"><input type="submit" value="Menu"/></a>
+<a th:href="@{/bank-accounts}"><input type="submit" value="Utwórz nowe konto"/></a>
+</body>
+
+</html>

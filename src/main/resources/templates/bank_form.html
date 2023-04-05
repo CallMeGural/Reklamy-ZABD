@@ -8,19 +8,19 @@
 <body>
 
 <h1> Dodaj nowe konto bankowe </h1>
-
-<form method="POST" th:action="@{/bank-accounts}" th:object="${bank}">
+<h1>Nie bedzie potrzebne</h1>
+<form method="POST" th:action="@{/bank-accounts}" th:object="${bankAccount}">
     <div th:if="${#fields.hasErrors()}">
             <span class="validationError">
                 Wystapily bledy. Sprobuj ponownie.
             </span>
     </div>
 
-    <label for="credit_card_number">Numer karty: </label>
-    <input type="text" th:field="*{credit_card_number}"/>
+    <label for="creditCardNumber">Numer karty: </label>
+    <input type="text" th:field="*{creditCardNumber}"/>
     <span class="validationError"
-          th:if="${#fields.hasErrors('credit_card_number')}"
-          th:errors="*{credit_card_number}"></span>
+          th:if="${#fields.hasErrors('creditCardNumber')}"
+          th:errors="*{creditCardNumber}"></span>
     <br/>
 
     <label for="cvc">CVC: </label>
@@ -32,8 +32,8 @@
 
     <label for="status">Status: </label>
     <select th:field="*{status}">
-        <option th:value="true" th:text="True"></option>
-        <option th:value="false" th:text="False"></option>
+        <option th:value="true" th:text="True">Prawda</option>
+        <option th:value="false" th:text="False">Fałsz</option>
     </select>
     <span class="validationError"
           th:if="${#fields.hasErrors('status')}"

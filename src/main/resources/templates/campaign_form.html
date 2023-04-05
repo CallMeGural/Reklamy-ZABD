@@ -16,21 +16,21 @@
             </span>
   </div>
 
-<!--  <label for="name">Nazwa kampanii: </label>-->
-<!--  <input type="text" th:field="*{name}"/>-->
-<!--  <span class="validationError"-->
-<!--        th:if="${#fields.hasErrors('name')}"-->
-<!--        th:errors="*{name}"></span>-->
-<!--  <br/>-->
+  <label for="name">Nazwa kampanii: </label>
+  <input type="text" th:field="*{name}"/>
+  <span class="validationError"
+        th:if="${#fields.hasErrors('name')}"
+        th:errors="*{name}"></span>
+  <br/>
 
-  <label for="bidAmount">Wartość oferty: </label>
+  <label for="bid">Wartość oferty: </label>
   <input  type="text" th:field="*{bid}" placeholder="double"/>
   <span class="validationError"
         th:if="${#fields.hasErrors('bid')}"
         th:errors="*{bid}"></span>
   <br/>
 
-  <label for="campaignFund">Dostępne środki: </label>
+  <label for="fund">Dostępne środki: </label>
   <input  type="text" th:field="*{fund}" placeholder="double"/>
   <span class="validationError"
         th:if="${#fields.hasErrors('fund')}"
@@ -54,6 +54,18 @@
   <span class="validationError"
         th:if="${#fields.hasErrors('city')}"
         th:errors="*{city}"></span>
+  <br/>
+
+  <label for="product">Produkt: </label>
+  <select th:field="*{product}">
+    <option th:each="product : ${products}"
+            th:value="${product.id}"
+            th:text="${product}">PRODUKT
+    </option>
+  </select>
+  <span class="validationError"
+        th:if="${#fields.hasErrors('product')}"
+        th:errors="*{product}"></span>
   <br/>
 
   <label for="radius">Promień: </label>

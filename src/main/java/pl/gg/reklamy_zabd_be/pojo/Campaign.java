@@ -1,8 +1,8 @@
 package pl.gg.reklamy_zabd_be.pojo;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;;
@@ -15,16 +15,22 @@ public class Campaign {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    @NotBlank(message = "Nazwa nie może być pusta")
+    @NotEmpty(message = "Nazwa nie może być pusta")
     String name;
+    @NotEmpty(message = "Podaj słowa kluczowe")
     String keywords;
+    @Min(value = 0)
     double bid;
+    @Min(value = 0)
     double fund;
     boolean status;
     @OneToOne
+    @JoinColumn(name = "city_id")
     City city;
+    @Min(value = 1)
     int radius;
     @OneToOne
+    @JoinColumn(name = "product_id")
     Product product;
 
     public Campaign(int id,String name, String keywords, double bidAmount, double campaignFund, City cityId, int radius, Product productId) {
