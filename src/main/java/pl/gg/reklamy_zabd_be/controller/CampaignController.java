@@ -55,6 +55,12 @@ public class CampaignController {
         return "redirect:/campaigns/list";
     }
 
+    @PutMapping("/open/{id}")
+    public String openCampaign(@PathVariable int id) {
+        campaignService.chargeCampaignWhenSiteOpened(id);
+        return "redirect:/campaigns/list";
+    }
+
     @PostMapping
     public String addCampaign(@Valid Campaign campaign,
                               Errors errors) {

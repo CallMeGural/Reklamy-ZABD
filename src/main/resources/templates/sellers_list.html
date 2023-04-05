@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista kart kredytowych</title>
+    <title>Lista sprzedawców</title>
 </head>
 
 <body>
@@ -28,9 +28,9 @@
             </a>
         </td>
         <td>
-            <form th:action="@{/sellers/{id}(id=${seller.id})}" th:method="DELETE">
+            <a th:action="@{/sellers/{id}(id=${seller.id})}" th:method="DELETE">
                 <input type = "submit" value="Usuń"/>
-            </form>
+            </a>
         </td>
     </tr>
 </table>

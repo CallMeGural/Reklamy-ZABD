@@ -22,6 +22,7 @@
     <th>Produkt</th>
     <th>Edytuj</th>
     <th>Usuń</th>
+    <th>Otwórz reklamę</th>
   </tr>
   <tr th:each ="campaign : ${campaigns}">
     <td th:text="${campaign.name}">NAME</td>
@@ -42,12 +43,19 @@
         <input type = "submit" value="Usuń"/>
       </form>
     </td>
+    <td>
+      <div th:if="${campaign.status}==true">
+        <form  th:action="@{/campaigns/open/{id}(id=${campaign.id})}" th:method="PUT">
+          <input type = "submit" value="Otwórz"/>
+        </form>
+      </div>
+    </td>
   </tr>
 </table>
 
 
 <a th:href="@{/}"><input type="submit" value="Menu"/></a>
-<a th:href="@{/campaigns}"><input type="submit" value="Utwórz nową kampanię"/></a>
+<a th:href="@{/campaigns/form}"><input type="submit" value="Utwórz nową kampanię"/></a>
 </body>
 
 </html>

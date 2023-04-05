@@ -53,7 +53,10 @@ public class CampaignService {
          campaignRepository.deleteAll();
     }
 
+    @Transactional
     public void chargeCampaignWhenSiteOpened(int id) {
-        System.out.println("hello");
+        Campaign campaignToCharge = campaignRepository.findById(id).orElseThrow();
+        campaignToCharge.setFund(campaignToCharge.getFund()-campaignToCharge.getBid());
+        campaignRepository.save(campaignToCharge);
     }
 }

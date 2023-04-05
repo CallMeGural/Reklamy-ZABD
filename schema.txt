@@ -103,7 +103,7 @@ create function update_status() returns trigger
 as
 $$
 begin
-    if new.fund=0 then
+    if new.fund<new.bid then
     update campaign set status=false where id=new.id;
     return new;
     end if;
@@ -118,6 +118,26 @@ create trigger update_status_trigger
     for each row
 execute procedure update_status();
 
+
+create function turn_on_campaign() returns trigger
+    language plpgsql
+as
+$$
+begin
+    if new.fund>=new.bid then
+    update campaign set status=true where id=new.id;
+    return new;
+    end if;
+    return old;
+end;
+$$;
+
+create trigger turn_on_campaign_trigger
+    after update
+        of fund
+    on campaign
+    for each row
+execute procedure turn_on_campaign();
 
 INSERT INTO company (name) VALUES ('ABC Corp'), ('XYZ Inc'),('TGB z o.o.');
 INSERT INTO bank_account (credit_card_number, cvc, status, balance,company_id)
