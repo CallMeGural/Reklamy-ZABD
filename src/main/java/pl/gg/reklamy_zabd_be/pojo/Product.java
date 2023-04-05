@@ -16,7 +16,7 @@ public class Product {
     int id;
     String productName;
     @ManyToOne
-    Seller sellerId;
+    Seller seller;
 
     @Override
     public String toString() {

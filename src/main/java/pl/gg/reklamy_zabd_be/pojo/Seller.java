@@ -17,7 +17,7 @@ public class Seller {
     String name;
     double balance;
     @ManyToOne
-    Company companyId;
+    Company company;
 
     @Override
     public String toString() {

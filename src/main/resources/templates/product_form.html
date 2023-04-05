@@ -23,16 +23,16 @@
           th:errors="*{productName}"></span>
     <br/>
 
-    <label for="sellerId">Sprzedawca: </label>
-    <select th:field="*{sellerId}">
+    <label for="seller">Sprzedawca: </label>
+    <select th:field="*{seller}">
         <option th:each="seller : ${sellers}"
                 th:value="${seller.id}"
                 th:text="${seller}">SPRZEDAWCA
         </option>
     </select>
     <span class="validationError"
-          th:if="${#fields.hasErrors('sellerId')}"
-          th:errors="*{sellerId}"></span>
+          th:if="${#fields.hasErrors('seller')}"
+          th:errors="*{seller}"></span>
     <br/>
     <input type="submit" value="Utworz produkt"/>
 </form>

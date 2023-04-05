@@ -22,7 +22,7 @@ public class SellerController {
     private final SellerService sellerService;
     private final CompanyService companyService;
 
-    @GetMapping
+    @GetMapping("/list")
     public String getAllSellers(Model model) {
         model.addAttribute("sellers", sellerService.getAllSellers());
         return "sellers_list";
@@ -42,7 +42,7 @@ public class SellerController {
         return "seller_form";
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public String updateSeller(@Valid @ModelAttribute("seller") Seller seller,
                                Model model) {
         sellerService.updateSeller(seller);
