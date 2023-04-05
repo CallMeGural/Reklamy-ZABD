@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
+import pl.gg.reklamy_zabd_be.pojo.Seller;
 import pl.gg.reklamy_zabd_be.pojo.dto.BankAccountDto;
+import pl.gg.reklamy_zabd_be.pojo.dto.ProcessPaymentDto;
 import pl.gg.reklamy_zabd_be.repository.BankAccountRepository;
+import pl.gg.reklamy_zabd_be.repository.SellerRepository;
 
 import java.util.List;
 
@@ -14,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BankAccountService {
     private final BankAccountRepository bankAccountRepository;
+    private final SellerRepository sellerRepository;
 
     public List<BankAccount> getAllBankAccounts() {
         return bankAccountRepository.findAll();
@@ -43,17 +47,14 @@ public class BankAccountService {
          bankAccountRepository.deleteById(id);
     }
 
-    public void deleteAllBankAccounts() {
-         bankAccountRepository.deleteAll();
-    }
 
     @Transactional
-    public BankAccount sendMoneyToOtherBankAccount(int sendId, int receiveId, double balance) {
-        BankAccount sendBankAcc = bankAccountRepository.findById(sendId).orElseThrow();
-        BankAccount receiveBankAcc = bankAccountRepository.findById(receiveId).orElseThrow();
-        sendBankAcc.setBalance(sendBankAcc.getBalance()-balance);
-        bankAccountRepository.save(sendBankAcc);
-        receiveBankAcc.setBalance(receiveBankAcc.getBalance()+balance);
-        return bankAccountRepository.save(receiveBankAcc);
+    public void processPayment(ProcessPaymentDto payment) {
+        BankAccount bankAccount = getBankAccountById(payment.getBankAccount().getId());
+        Seller seller = sellerRepository.findById(payment.getSeller().getId()).orElseThrow();
+        bankAccount.setBalance(bankAccount.getBalance()-payment.getPayment());
+        seller.setBalance(seller.getBalance()+payment.getPayment());
+        bankAccountRepository.save(bankAccount);
+        sellerRepository.save(seller);
     }
 }

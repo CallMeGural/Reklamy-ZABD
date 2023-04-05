@@ -9,10 +9,13 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.Company;
+import pl.gg.reklamy_zabd_be.pojo.Seller;
 import pl.gg.reklamy_zabd_be.pojo.dto.BankAccountDto;
+import pl.gg.reklamy_zabd_be.pojo.dto.ProcessPaymentDto;
 import pl.gg.reklamy_zabd_be.service.BankAccountService;
 import org.springframework.ui.Model;
 import pl.gg.reklamy_zabd_be.service.CompanyService;
+import pl.gg.reklamy_zabd_be.service.SellerService;
 
 
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ public class BankAccountController {
 
     private final BankAccountService bankAccountService;
     private final CompanyService companyService;
+    private final SellerService sellerService;
 
     @GetMapping("/list")
     public String getAllBankAccounts(Model model) {
@@ -47,6 +51,22 @@ public class BankAccountController {
         return "bank_edit";
     }
 
+    @GetMapping("/send/{id}")
+    public String sendMoneyForm(Model model,@PathVariable int id) {
+        BankAccount bankAccount = bankAccountService.getBankAccountById(id);
+        List<Seller> sellers = sellerService.getSellersFromCompany(bankAccount.getCompany());
+        model.addAttribute("bankAccount",bankAccount);
+        model.addAttribute("sellers",sellers);
+        model.addAttribute("dto",new ProcessPaymentDto());
+        return "bank_send_money";
+    }
+
+    @PutMapping("/send")
+    public String processPayment(@ModelAttribute("dto") ProcessPaymentDto payment) {
+        bankAccountService.processPayment(payment);
+        return "redirect:/bank_accounts/list";
+    }
+
     @PutMapping
     public String updateBankAccount(
             @Valid @ModelAttribute("bank") BankAccountDto bankAccount,
@@ -63,15 +83,4 @@ public class BankAccountController {
         return "redirect:/bank_accounts/list";
     }
 
-    @DeleteMapping
-    public String deleteAllBankAccounts() {
-        bankAccountService.deleteAllBankAccounts();
-        return "redirect:/";
-    }
-
-    @PutMapping("/transfer")
-    public String sendMoneyToOtherBankAccount(int sendId, int receiveId, double balance) {
-        bankAccountService.sendMoneyToOtherBankAccount(sendId, receiveId, balance);
-        return "bank_account_list";
-    }
 }

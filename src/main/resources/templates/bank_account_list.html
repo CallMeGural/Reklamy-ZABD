@@ -19,6 +19,7 @@
         <th>Środki</th>
         <th>Edytuj</th>
         <th>Usuń</th>
+        <th>Przelew</th>
     </tr>
     <tr th:each ="bankAcc : ${bankAccounts}">
         <td th:text="${bankAcc.company}">COMPANY</td>
@@ -35,6 +36,11 @@
             <form th:action="@{/bank-accounts/{id}(id=${bankAcc.id})}" th:method="DELETE">
                 <input type = "submit" value="Usuń"/>
             </form>
+        </td>
+        <td>
+            <a th:href="@{/bank-accounts/send/{id}(id=${bankAcc.id})}">
+                <input type="submit" value="Wykonaj"/>
+            </a>
         </td>
     </tr>
 </table>

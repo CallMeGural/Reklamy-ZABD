@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.Seller;
 import pl.gg.reklamy_zabd_be.repository.SellerRepository;
 
@@ -36,5 +37,9 @@ public class SellerService {
 
     public void deleteAllSellers() {
          sellerRepository.deleteAll();
+    }
+
+    public List<Seller> getSellersFromCompany(Company company) {
+        return sellerRepository.findAllByCompany(company);
     }
 }
