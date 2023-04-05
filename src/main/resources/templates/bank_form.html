@@ -45,8 +45,23 @@
           th:if="${#fields.hasErrors('balance')}"
           th:errors="*{balance}"></span>
     <br/>
+
+    <label for="company">Fimra: </label>
+    <select th:field="*{company}">
+        <option th:each="company : ${companies}"
+                th:value="${company.id}"
+                th:text="${company}">FIRMA
+        </option>
+    </select>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('company')}"
+          th:errors="*{company}"></span>
+    <br/>
+
     <input type="submit" value="Utworz konto"/>
 </form>
+
+<a th:href="@{/}"><input type="submit" value="Menu"/></a>
 
 </body>
 </html>

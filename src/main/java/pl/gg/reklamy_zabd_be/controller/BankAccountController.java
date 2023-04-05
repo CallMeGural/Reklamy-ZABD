@@ -32,7 +32,7 @@ public class BankAccountController {
         return "bank_account_list";
     }
 
-    @GetMapping
+    @GetMapping("/form")
     public String bankAccountForm(Model model) {
         model.addAttribute("bankAccount",new BankAccount());
         model.addAttribute("companies",companyService.getAllCompanies());
