@@ -1,79 +1,101 @@
-create table bank_account
+create sequence bank_account_seq
+    increment by 50;
+
+create sequence campaign_seq
+    increment by 50;
+
+create sequence city_seq
+    increment by 50;
+
+create sequence company_seq
+    increment by 50;
+
+create sequence product_seq
+    increment by 50;
+
+create sequence seller_seq
+    increment by 50;
+
+create table city
 (
-    id                 serial,
-    credit_card_number varchar(16)    not null,
-    cvc                varchar(3)     not null,
-    status             boolean        not null,
-    balance            numeric(10, 2) not null,
-    constraint bank_account_pkey
+    id         serial,
+    area       integer not null,
+    city_name  varchar(255),
+    population integer not null,
+    constraint city_pkey
         primary key (id)
 );
 
 create table company
 (
-    id              serial,
-    name            varchar(255) not null,
-    bank_account_id integer,
+    id   serial,
+    name varchar(255),
     constraint company_pkey
-        primary key (id),
-    constraint company_bank_account_id_key
-        unique (bank_account_id),
-    constraint company_bank_account_id_fkey
-        foreign key (bank_account_id) references bank_account
+        primary key (id)
 );
 
-create table seller
+create table bank_account
 (
-    id              serial,
-    name            varchar(255) not null,
-    bank_account_id integer      not null,
-    company_id      integer      not null,
-    constraint seller_pkey
+    id                 serial,
+    balance            double precision not null,
+    credit_card_number varchar(255),
+    cvc                varchar(255),
+    status             boolean          not null,
+    company_id         integer,
+    constraint bank_account_pkey
         primary key (id),
-    constraint seller_bank_account_id_fkey
-        foreign key (bank_account_id) references bank_account,
-    constraint seller_company_id_fkey
+    constraint fkgm6p0ej8mhbakybacuneanald
         foreign key (company_id) references company
 );
 
 create table product
 (
-    id        serial,
-    name      varchar(255) not null,
-    seller_id integer      not null,
+    id           serial,
+    product_name varchar(255),
+    seller_id    integer not null,
     constraint product_pkey
-        primary key (id),
-    constraint product_seller_id_fkey
-        foreign key (seller_id) references seller
-);
-
-create table city
-(
-    id         serial,
-    name       varchar(255)   not null,
-    population integer        not null,
-    area       numeric(10, 2) not null,
-    constraint city_pkey
         primary key (id)
 );
 
 create table campaign
 (
     id         serial,
-    keywords   varchar(255)         not null,
-    bid        numeric(10, 2)       not null,
-    fund       numeric(10, 2)       not null,
-    status     boolean default true not null,
-    radius     integer              not null,
-    city_id    integer              not null,
-    product_id integer              not null,
-    name       varchar(255)         not null,
+    bid        double precision not null,
+    fund       double precision not null,
+    keywords   varchar(255),
+    name       varchar(255),
+    radius     integer          not null,
+    status     boolean          not null,
+    city_id    integer,
+    product_id integer,
     constraint campaign_pkey
         primary key (id),
-    constraint campaign_city_id_fkey
+    constraint fkmd77wro8uqjwi4sk9b7cx34a5
         foreign key (city_id) references city,
-    constraint campaign_product_id_fkey
+    constraint fkt8ic0ay1670e4uopfcvgi63lv
         foreign key (product_id) references product
+);
+
+alter table campaign
+    add constraint campaign_bid_check
+        check (bid >= (0)::double precision);
+
+alter table campaign
+    add constraint campaign_fund_check
+        check (fund >= (0)::double precision);
+
+alter table campaign
+    add constraint campaign_radius_check
+        check (radius >= 1);
+
+create table seller
+(
+    id          serial,
+    bank_acc_id integer not null,
+    company_id  integer not null,
+    name        varchar(255),
+    constraint seller_pkey
+        primary key (id)
 );
 
 create function update_status() returns trigger
@@ -97,18 +119,22 @@ create trigger update_status_trigger
 execute procedure update_status();
 
 
-INSERT INTO bank_account (credit_card_number, cvc, status, balance)
-VALUES ('1234567812345678', '123', 'true', 1000.00),
-       ('8765432187654321', '456', 'true', 500.00),
-       ('1111222233334444', '789', 'true', 0.00);
+INSERT INTO company (name) VALUES ('ABC Corp'), ('XYZ Inc'),('TGB z o.o.');
+INSERT INTO bank_account (credit_card_number, cvc, status, balance,company_id)
+VALUES ('1234567812345678', '123', 'true', 1000.00,1),
+       ('8765432187654321', '456', 'true', 500.00,2),
+       ('1111222233334444', '789', 'true', 0.00,2);
 select * from bank_account;
-INSERT INTO company (name, bank_account_id) VALUES ('ABC Corp',1), ('XYZ Inc',2);
-INSERT INTO seller (name, bank_account_id, company_id)
+
+INSERT INTO seller (name, bank_acc_id, company_id)
 VALUES ('John Doe', 1, 1),
        ('Jane Smith', 2, 2),
        ('Bob Johnson', 3, 1);
-INSERT INTO product (name, seller_id) VALUES ('Product A', 1), ('Product B', 2), ('Product C', 3);
-INSERT INTO city (name, population, area) VALUES ('New York', 8538000, 468.9), ('Los Angeles', 3976000, 502.7);
+INSERT INTO product (product_name, seller_id) VALUES ('Product A', 1), ('Product B', 2), ('Product C', 3);
+INSERT INTO city (city_name, population, area) VALUES ('New York', 8538000, 468.9), ('Los Angeles', 3976000, 502.7);
 INSERT INTO campaign (name,keywords, bid, fund, status, radius, city_id, product_id)
 VALUES ('Campaign 1','keyword1, keyword2', 10.00, 1000.00, true, 50, 1, 1),
        ('Campaign 2','keyword3, keyword4', 20.00, 2000.00, true, 100, 2, 2);
+select * from campaign;
+update campaign set fund=fund-bid where id =2;
+select * from campaign;
