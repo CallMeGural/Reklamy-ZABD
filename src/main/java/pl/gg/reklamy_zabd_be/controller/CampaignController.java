@@ -30,7 +30,7 @@ public class CampaignController {
         return "campaign_list";
     }
 
-    @GetMapping
+    @GetMapping("/form")
     public String campaignForm(Model model) {
         model.addAttribute("campaign",new Campaign());
         model.addAttribute("cities",cityService.getAllCities());
