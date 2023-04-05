@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.gg.reklamy_zabd_be.pojo.Campaign;
 import pl.gg.reklamy_zabd_be.pojo.City;
 import pl.gg.reklamy_zabd_be.pojo.dto.CityDto;
 import pl.gg.reklamy_zabd_be.service.CityService;
@@ -32,6 +33,12 @@ public class CityController {
         City city = cityService.getCityById(id);
         model.addAttribute("city", city);
         return "city_edit";
+    }
+
+    @GetMapping("/form")
+    public String cityForm(Model model) {
+        model.addAttribute("city",new City());
+        return "city_form";
     }
 
     @PutMapping

@@ -27,10 +27,10 @@ public class CampaignController {
     @GetMapping("/list")
     public String getAllCampaigns(Model model) {
         model.addAttribute("campaigns",campaignService.getAllCampaigns());
-        return "campaigns_list";
+        return "campaign_list";
     }
 
-    @GetMapping
+    @GetMapping("/form")
     public String campaignForm(Model model) {
         model.addAttribute("campaign",new Campaign());
         model.addAttribute("cities",cityService.getAllCities());
@@ -57,7 +57,7 @@ public class CampaignController {
 
     @PostMapping
     public String addCampaign(@Valid Campaign campaign,
-                             Errors errors) {
+                              Errors errors) {
         if(errors.hasErrors()) return "campaign_form";
         campaignService.saveCampaign(campaign);
         return "redirect:/campaigns/list";
@@ -78,6 +78,6 @@ public class CampaignController {
     @PutMapping("/charge/{id}")
     public String chargeCampaignWhenSiteOpened(@PathVariable int id) {
         campaignService.chargeCampaignWhenSiteOpened(id);
-        return "campaigns_list";
+        return "campaign_list";
     }
 }

@@ -1,9 +1,6 @@
 package pl.gg.reklamy_zabd_be.pojo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +15,12 @@ public class Seller {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String name;
-    int bankAccId;
-    int companyId;
+    double balance;
+    @ManyToOne
+    Company companyId;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

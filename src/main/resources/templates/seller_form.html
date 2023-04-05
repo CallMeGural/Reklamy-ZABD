@@ -23,22 +23,29 @@
           th:errors="*{name}"></span>
     <br/>
 
-    <label for="bank_account_id">Konto bankowe: </label>
-    <input type="text" th:field="*{bank_account_id}"/>
+    <label for="balance">Stan konta: </label>
+    <input type="text" th:field="*{balance}"/>
     <span class="validationError"
-          th:if="${#fields.hasErrors('bank_account_id')}"
-          th:errors="*{bank_account_id}"></span>
+          th:if="${#fields.hasErrors('balance')}"
+          th:errors="*{balance}"></span>
     <br/>
 
-    <label for="company_id">Firma: </label>
-    <input type="text" th:field="*{company_id}"/>
+    <label for="companyId">Sprzedawca: </label>
+    <select th:field="*{companyId}">
+        <option th:each="company : ${companies}"
+                th:value="${company.id}"
+                th:text="${company}">SPRZEDAWCA
+        </option>
+    </select>
     <span class="validationError"
-          th:if="${#fields.hasErrors('company_id')}"
-          th:errors="*{company_id}"></span>
+          th:if="${#fields.hasErrors('companyId')}"
+          th:errors="*{companyId}"></span>
     <br/>
 
     <input type="submit" value="Utworz sprzedawce"/>
 </form>
+
+<a th:href="@{/}"><input type="submit" value="Menu"/></a>
 
 </body>
 </html>

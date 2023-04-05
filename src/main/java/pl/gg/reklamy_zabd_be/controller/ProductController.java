@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.gg.reklamy_zabd_be.pojo.City;
 import pl.gg.reklamy_zabd_be.pojo.Product;
 import pl.gg.reklamy_zabd_be.service.ProductService;
+import pl.gg.reklamy_zabd_be.service.SellerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final SellerService sellerService;
 
     @GetMapping
     public String getAllProducts(Model model) {
@@ -33,6 +36,13 @@ public class ProductController {
         return "product_edit";
     }
 
+    @GetMapping("/form")
+    public String productForm(Model model) {
+        model.addAttribute("product",new Product());
+        model.addAttribute("sellers", sellerService.getAllSellers());
+        return "product_form";
+    }
+
     @PutMapping
     public String updateProduct(@Valid @ModelAttribute("product") Product Product,
                                 Model model) {
@@ -44,13 +54,13 @@ public class ProductController {
     @PostMapping
     public String addProduct(@Valid Product Product) {
         productService.saveProduct(Product);
-        return "redirect:/companies/list";
+        return "redirect:/products/list";
     }
 
     @DeleteMapping("/{id}")
     public String deleteProductById(@PathVariable int id) {
         productService.deleteProductById(id);
-        return "redirect:/companies/list";
+        return "redirect:/products/list";
     }
 
     @DeleteMapping

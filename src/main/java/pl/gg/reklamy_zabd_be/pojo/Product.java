@@ -15,7 +15,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String productName;
-    int sellerId;
+    @ManyToOne
+    Seller sellerId;
 
     @Override
     public String toString() {

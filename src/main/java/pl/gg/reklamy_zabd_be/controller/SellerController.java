@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.gg.reklamy_zabd_be.pojo.City;
 import pl.gg.reklamy_zabd_be.pojo.Seller;
+import pl.gg.reklamy_zabd_be.service.CompanyService;
 import pl.gg.reklamy_zabd_be.service.SellerService;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public class SellerController {
 
 
     private final SellerService sellerService;
+    private final CompanyService companyService;
 
     @GetMapping
     public String getAllSellers(Model model) {
@@ -30,6 +33,13 @@ public class SellerController {
         Seller seller = sellerService.getSellerById(id);
         model.addAttribute("seller", seller);
         return "seller_edit";
+    }
+
+    @GetMapping("/form")
+    public String sellerForm(Model model) {
+        model.addAttribute("seller",new Seller());
+        model.addAttribute("companies",companyService.getAllCompanies());
+        return "seller_form";
     }
 
     @PutMapping

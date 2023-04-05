@@ -16,11 +16,11 @@
             </span>
     </div>
 
-    <label for="name">Nazwa miasta: </label>
-    <input type="text" th:field="*{name}"/>
+    <label for="cityName">Nazwa miasta: </label>
+    <input type="text" th:field="*{cityName}"/>
     <span class="validationError"
-          th:if="${#fields.hasErrors('name')}"
-          th:errors="*{name}"></span>
+          th:if="${#fields.hasErrors('cityName')}"
+          th:errors="*{cityName}"></span>
     <br/>
 
     <label for="population">Zaludnienie: </label>
@@ -38,6 +38,8 @@
     <br/>
     <input type="submit" value="Utworz miasto"/>
 </form>
+
+<a th:href="@{/}"><input type="submit" value="Menu"/></a>
 
 </body>
 </html>

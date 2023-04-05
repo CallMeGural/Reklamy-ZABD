@@ -32,7 +32,7 @@ public class BankAccountController {
         return "bank_account_list";
     }
 
-    @GetMapping
+    @GetMapping("/form")
     public String bankAccountForm(Model model) {
         model.addAttribute("bankAccount",new BankAccount());
         model.addAttribute("companies",companyService.getAllCompanies());
@@ -72,6 +72,6 @@ public class BankAccountController {
     @PutMapping("/transfer")
     public String sendMoneyToOtherBankAccount(int sendId, int receiveId, double balance) {
         bankAccountService.sendMoneyToOtherBankAccount(sendId, receiveId, balance);
-        return "banks_list";
+        return "bank_account_list";
     }
 }

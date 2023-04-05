@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.gg.reklamy_zabd_be.pojo.City;
 import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.dto.CompanyDto;
 import pl.gg.reklamy_zabd_be.repository.CompanyRepository;
@@ -33,6 +34,12 @@ public class CompanyController {
         Company company = companyService.getCompanyById(id);
         model.addAttribute("company", company);
         return "company_edit";
+    }
+
+    @GetMapping("/form")
+    public String companyForm(Model model) {
+        model.addAttribute("company",new Company());
+        return "company_form";
     }
 
     @PutMapping
