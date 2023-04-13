@@ -23,10 +23,10 @@ public class ProductController {
     private final ProductService productService;
     private final SellerService sellerService;
 
-    @GetMapping
+    @GetMapping("/list")
     public String getAllProducts(Model model) {
         model.addAttribute("products", productService.getAllProducts());
-        return "products_list";
+        return "product_list";
     }
 
     @GetMapping("/{id}")
