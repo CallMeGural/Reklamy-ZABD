@@ -146,10 +146,10 @@ VALUES ('1234567812345678', '123', 'true', 1000.00,1),
        ('1111222233334444', '789', 'true', 0.00,2);
 select * from bank_account;
 
-INSERT INTO seller (name, bank_acc_id, company_id)
-VALUES ('John Doe', 1, 1),
-       ('Jane Smith', 2, 2),
-       ('Bob Johnson', 3, 1);
+INSERT INTO seller (name, balance, company_id)
+VALUES ('John Doe', 99.00, 1),
+       ('Jane Smith', 419.00, 2),
+       ('Bob Johnson', 68.00, 1);
 INSERT INTO product (product_name, seller_id) VALUES ('Product A', 1), ('Product B', 2), ('Product C', 3);
 INSERT INTO city (city_name, population, area) VALUES ('New York', 8538000, 468.9), ('Los Angeles', 3976000, 502.7);
 INSERT INTO campaign (name,keywords, bid, fund, status, radius, city_id, product_id)
