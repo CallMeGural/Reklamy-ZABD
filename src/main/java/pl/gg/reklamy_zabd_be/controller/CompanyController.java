@@ -29,6 +29,8 @@ public class CompanyController {
         return "companies_list";
     }
 
+
+
     @GetMapping("/{id}")
     public String getCompanyById(Model model, @PathVariable int id) {
         Company company = companyService.getCompanyById(id);

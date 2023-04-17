@@ -45,8 +45,8 @@ public class BankAccountController {
 
     @GetMapping("/{id}")
     public String getBankAccountById(Model model, @PathVariable int id) {
-        BankAccount bank = bankAccountService.getBankAccountById(id);
-        model.addAttribute("bankAccount", bank);
+        BankAccount bankAccount = bankAccountService.getBankAccountById(id);
+        model.addAttribute("bankAccount", bankAccount);
         model.addAttribute("companies",companyService.getAllCompanies());
         return "bank_edit";
     }
@@ -64,23 +64,23 @@ public class BankAccountController {
     @PutMapping("/send")
     public String processPayment(@ModelAttribute("dto") ProcessPaymentDto payment) {
         bankAccountService.processPayment(payment);
-        return "redirect:/bank_accounts/list";
+        return "redirect:/bank-accounts/list";
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public String updateBankAccount(
-            @Valid @ModelAttribute("bank") BankAccountDto bankAccount,
+            @Valid BankAccount bankAccount,
             Errors errors) {
         if(errors.hasErrors()) return "bank_edit";
         bankAccountService.updateBankAccount(bankAccount);
-        return "redirect:/bank_accounts/list";
+        return "redirect:/bank-accounts/list";
     }
 
 
     @DeleteMapping("/{id}")
     public String deleteBankAccountById(@PathVariable int id) {
         bankAccountService.deleteBankAccountById(id);
-        return "redirect:/bank_accounts/list";
+        return "redirect:/bank-accounts/list";
     }
 
 }

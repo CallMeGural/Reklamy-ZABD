@@ -28,4 +28,9 @@ public class BankAccount {
         this.balance = balance;
         this.company=company;
     }
+
+    @Override
+    public String toString() {
+        return company.name;
+    }
 }

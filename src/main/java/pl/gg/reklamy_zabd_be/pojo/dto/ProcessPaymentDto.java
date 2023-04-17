@@ -19,4 +19,13 @@ public class ProcessPaymentDto {
     public ProcessPaymentDto(BankAccount bankAccount) {
         this.bankAccount = bankAccount;
     }
+
+    @Override
+    public String toString() {
+        return "ProcessPaymentDto{" +
+                "bankAccount=" + bankAccount +
+                ", seller=" + seller +
+                ", payment=" + payment +
+                '}';
+    }
 }

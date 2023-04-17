@@ -1,6 +1,7 @@
 package pl.gg.reklamy_zabd_be.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Log
 public class BankAccountService {
     private final BankAccountRepository bankAccountRepository;
     private final SellerRepository sellerRepository;
@@ -32,7 +34,7 @@ public class BankAccountService {
     }
 
     @Transactional
-    public BankAccount updateBankAccount(BankAccountDto dto) {
+    public BankAccount updateBankAccount(BankAccount dto) {
         BankAccount update = getBankAccountById(dto.getId());
         if(dto.getBalance()!=0.)
             update.setBalance(dto.getBalance());
@@ -40,6 +42,7 @@ public class BankAccountService {
             update.setCvc(dto.getCvc());
         if(!dto.getCreditCardNumber().equals(""))
             update.setCreditCardNumber(dto.getCreditCardNumber());
+        update.setCompany(dto.getCompany());
         return bankAccountRepository.save(update);
     }
 
@@ -50,6 +53,7 @@ public class BankAccountService {
 
     @Transactional
     public void processPayment(ProcessPaymentDto payment) {
+        log.info(payment.toString());
         BankAccount bankAccount = getBankAccountById(payment.getBankAccount().getId());
         Seller seller = sellerRepository.findById(payment.getSeller().getId()).orElseThrow();
         bankAccount.setBalance(bankAccount.getBalance()-payment.getPayment());

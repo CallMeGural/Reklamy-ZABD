@@ -12,18 +12,13 @@
 
 <form th:action="@{/bank-accounts/send}"
       th:object="${dto}" th:method="PUT">
+
     <div th:if="${#fields.hasErrors()}">
             <span class="validationError">
                 Usun problemy, sprobuj ponownie
             </span>
     </div>
     <table>
-        <tr>
-            <td>ID</td>
-            <td>:</td>
-            <td th:utext="${bankAccount.id}">ID</td>
-        </tr>
-
         <tr>
             <td>Balance</td>
             <td>:</td>
@@ -46,12 +41,18 @@
                     th:text="${seller}">SPRZEDAWCA
             </option>
         </select>
+        <label for="bankAccount">Konto bankowe: </label>
+        <select th:field="*{bankAccount}">
+            <option th:each="bank : ${bankAccount}"
+                    th:value="${bank.id}"
+                    th:text="${bank}">SPRZEDAWCA
+            </option>
+        </select>
     </table>
+
 <input type="submit" th:value="Przelej" />
 </form>
 
-    <h1>UTWORZYC FRONT DO PRZESYLANIA KASY: WYBRAC SPRZEDAWCE Z LISTY I WPISAC JAKA KWOTE CHCEMY MU PRZELAC.
-        BACKEND GOTOWY - LISTA SPRZEDAWCOW PRZEFILTROWANA PO FIRMIE</h1>
 
 </body>
 </html>
