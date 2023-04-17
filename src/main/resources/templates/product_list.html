@@ -17,7 +17,7 @@
     <th>Usuń</th>
   </tr>
   <tr th:each ="product : ${products}">
-    <td th:text="${product.name}">NAME</td>
+    <td th:text="${product.productName}">NAME</td>
     <td>
       <a th:href="@{/products/{id}(id=${product.id})}">
         <input type="submit" value="Edytuj"/>

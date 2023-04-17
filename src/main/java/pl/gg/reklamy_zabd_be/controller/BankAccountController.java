@@ -57,7 +57,7 @@ public class BankAccountController {
         List<Seller> sellers = sellerService.getSellersFromCompany(bankAccount.getCompany());
         model.addAttribute("bankAccount",bankAccount);
         model.addAttribute("sellers",sellers);
-        model.addAttribute("dto",new ProcessPaymentDto());
+        model.addAttribute("dto",new ProcessPaymentDto(bankAccount));
         return "bank_send_money";
     }
 

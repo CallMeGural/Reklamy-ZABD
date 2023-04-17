@@ -15,4 +15,8 @@ public class ProcessPaymentDto {
     private BankAccount bankAccount;
     private Seller seller;
     double payment;
+
+    public ProcessPaymentDto(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
+    }
 }
