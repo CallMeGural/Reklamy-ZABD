@@ -2,10 +2,13 @@ package pl.gg.reklamy_zabd_be.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.iban4j.CountryCode;
+import org.iban4j.Iban;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
+import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.Seller;
 import pl.gg.reklamy_zabd_be.pojo.dto.BankAccountDto;
 import pl.gg.reklamy_zabd_be.pojo.dto.ProcessPaymentDto;
@@ -60,5 +63,9 @@ public class BankAccountService {
         seller.setBalance(seller.getBalance()+payment.getPayment());
         bankAccountRepository.save(bankAccount);
         sellerRepository.save(seller);
+    }
+
+    public BankAccount saveCampaign(BankAccount bankAccount) {
+        return bankAccountRepository.save(bankAccount);
     }
 }

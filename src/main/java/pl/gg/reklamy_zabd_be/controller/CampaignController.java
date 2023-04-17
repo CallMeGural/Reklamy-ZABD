@@ -30,6 +30,12 @@ public class CampaignController {
         return "campaign_list";
     }
 
+    @GetMapping("/list/{id}")
+    public String getProductsCampaigns(Model model, @PathVariable int id) {
+        model.addAttribute("campaigns",campaignService.getAllProductsCampaigns(id));
+        return "campaign_list";
+    }
+
     @GetMapping("/form")
     public String campaignForm(Model model) {
         model.addAttribute("campaign",new Campaign());

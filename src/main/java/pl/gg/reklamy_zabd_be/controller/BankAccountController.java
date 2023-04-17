@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
+import pl.gg.reklamy_zabd_be.pojo.Campaign;
 import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.Seller;
 import pl.gg.reklamy_zabd_be.pojo.dto.BankAccountDto;
@@ -30,17 +31,26 @@ public class BankAccountController {
     private final CompanyService companyService;
     private final SellerService sellerService;
 
+    //list of bank accounts
     @GetMapping("/list")
     public String getAllBankAccounts(Model model) {
         model.addAttribute("bankAccounts", bankAccountService.getAllBankAccounts());
         return "bank_account_list";
     }
 
+    //adding new bank account form
     @GetMapping("/form")
     public String bankAccountForm(Model model) {
         model.addAttribute("bankAccount",new BankAccount());
         model.addAttribute("companies",companyService.getAllCompanies());
         return "bank_form";
+    }
+    @PostMapping
+    public String addCampaign(@Valid BankAccount bankAccount,
+                              Errors errors) {
+        if(errors.hasErrors()) return "bank_form";
+        bankAccountService.saveCampaign(bankAccount);
+        return "redirect:/bank-accounts/list";
     }
 
     @GetMapping("/{id}")

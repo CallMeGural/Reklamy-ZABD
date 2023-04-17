@@ -13,11 +13,17 @@
 <table>
   <tr>
     <th>Nazwa</th>
+    <th>Kampanie</th>
     <th>Edytuj</th>
     <th>Usuń</th>
   </tr>
   <tr th:each ="product : ${products}">
     <td th:text="${product.productName}">NAME</td>
+    <td>
+      <a th:href="@{/campaigns/list/{id}(id=${product.id})}">
+        <input type="submit" value="Otwórz"/>
+      </a>
+    </td>
     <td>
       <a th:href="@{/products/{id}(id=${product.id})}">
         <input type="submit" value="Edytuj"/>

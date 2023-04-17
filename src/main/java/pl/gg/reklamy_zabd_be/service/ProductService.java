@@ -4,8 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.Product;
+import pl.gg.reklamy_zabd_be.pojo.Seller;
+import pl.gg.reklamy_zabd_be.repository.CompanyRepository;
 import pl.gg.reklamy_zabd_be.repository.ProductRepository;
+import pl.gg.reklamy_zabd_be.repository.SellerRepository;
 
 
 import java.util.List;
@@ -14,6 +18,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private final CompanyRepository companyRepository;
+    private final SellerRepository sellerRepository;
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -37,5 +43,12 @@ public class ProductService {
 
     public void deleteAllProducts() {
          productRepository.deleteAll();
+    }
+
+    @Transactional
+    public List<Product> getAllCompanyProducts(int id) {
+        Company company = companyRepository.findById(id).orElseThrow();
+        List<Seller> sellers = sellerRepository.findAllByCompany(company);
+        return productRepository.findAllBySellerIn(sellers);
     }
 }

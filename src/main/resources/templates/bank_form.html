@@ -8,7 +8,6 @@
 <body>
 
 <h1> Dodaj nowe konto bankowe </h1>
-<h1>Nie bedzie potrzebne</h1>
 <form method="POST" th:action="@{/bank-accounts}" th:object="${bankAccount}">
     <div th:if="${#fields.hasErrors()}">
             <span class="validationError">

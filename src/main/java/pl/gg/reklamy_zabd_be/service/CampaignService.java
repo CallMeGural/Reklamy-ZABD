@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gg.reklamy_zabd_be.pojo.Campaign;
+import pl.gg.reklamy_zabd_be.pojo.Product;
 import pl.gg.reklamy_zabd_be.pojo.dto.CampaignDto;
 import pl.gg.reklamy_zabd_be.repository.CampaignRepository;
+import pl.gg.reklamy_zabd_be.repository.ProductRepository;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class CampaignService {
 
     private final CampaignRepository campaignRepository;
+    private final ProductRepository productRepository;
 
     public List<Campaign> getAllCampaigns() {
         return campaignRepository.findAll();
@@ -58,5 +61,10 @@ public class CampaignService {
         Campaign campaignToCharge = campaignRepository.findById(id).orElseThrow();
         campaignToCharge.setFund(campaignToCharge.getFund()-campaignToCharge.getBid());
         campaignRepository.save(campaignToCharge);
+    }
+
+    public List<Campaign> getAllProductsCampaigns(int id) {
+        Product product = productRepository.findById(id).orElseThrow();
+        return campaignRepository.findAllByProduct(product);
     }
 }

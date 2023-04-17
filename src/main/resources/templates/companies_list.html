@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista kampanii</title>
+</head>
+
+<body>
+
+<h1>Lista kampanii</h1>
+
+<table>
+    <tr>
+        <th>Nazwa</th>
+        <th>Edytuj</th>
+        <th>Usuń</th>
+        <th>Produkty</th>
+
+    </tr>
+    <tr th:each ="company : ${companies}">
+        <td th:text="${company.name}">NAME</td>
+        <td>
+            <a th:href="@{/companies/{id}(id=${company.id})}">
+                <input type="submit" value="Edytuj"/>
+            </a>
+        </td>
+        <td>
+            <form th:action="@{/companies/{id}(id=${company.id})}" th:method="DELETE">
+                <input type = "submit" value="Usuń"/>
+            </form>
+        </td>
+        <td>
+            <a th:href="@{/products/list/{id}(id=${company.id})}">
+                <input type="submit" value="Wyświetl"/>
+            </a>
+        </td>
+    </tr>
+</table>
+
+
+<a th:href="@{/}"><input type="submit" value="Menu"/></a>
+<a th:href="@{/companies/form}"><input type="submit" value="Utwórz nową firmę"/></a>
+</body>
+
+</html>
+

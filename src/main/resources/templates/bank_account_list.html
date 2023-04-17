@@ -20,6 +20,7 @@
         <th>Edytuj</th>
         <th>Usuń</th>
         <th>Przelew</th>
+
     </tr>
     <tr th:each ="bankAcc : ${bankAccounts}">
         <td th:text="${bankAcc.company}">COMPANY</td>
@@ -42,12 +43,13 @@
                 <input type="submit" value="Wykonaj"/>
             </a>
         </td>
+
     </tr>
 </table>
 
 
 <a th:href="@{/}"><input type="submit" value="Menu"/></a>
-<a th:href="@{/bank-accounts}"><input type="submit" value="Utwórz nowe konto"/></a>
+<a th:href="@{/bank-accounts/form}"><input type="submit" value="Utwórz nowe konto"/></a>
 </body>
 
 </html>

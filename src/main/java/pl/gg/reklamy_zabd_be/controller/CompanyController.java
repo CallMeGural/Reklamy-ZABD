@@ -30,7 +30,6 @@ public class CompanyController {
     }
 
 
-
     @GetMapping("/{id}")
     public String getCompanyById(Model model, @PathVariable int id) {
         Company company = companyService.getCompanyById(id);
