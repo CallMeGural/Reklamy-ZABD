@@ -3,15 +3,14 @@ package pl.gg.reklamy_zabd_be.pojo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Embeddable
+@Getter
+@Setter
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

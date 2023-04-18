@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.Campaign;
 import pl.gg.reklamy_zabd_be.pojo.City;
@@ -43,10 +44,11 @@ public class CityController {
 
     @PutMapping("/{id}")
     public String updateCity(@Valid @ModelAttribute("city") CityDto city,
-                             Model model) {
+                             Model model, Errors errors) {
+        if(errors.hasErrors()) return "city_edit";
         cityService.updateCity(city);
         model.addAttribute("city", city);
-        return "city_edit";
+        return "redirect:/cities/list";
     }
 
     @PostMapping
