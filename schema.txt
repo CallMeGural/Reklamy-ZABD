@@ -158,3 +158,24 @@ VALUES ('Campaign 1','keyword1, keyword2', 10.00, 1000.00, true, 50, 1, 1),
 select * from campaign;
 update campaign set fund=fund-bid where id =2;
 select * from campaign;
+
+
+create or replace function turn_off_card() returns trigger
+language plpgsql
+as
+$$
+begin
+if new.balance<=0 then
+update bank_account set status =false where id = new.id;
+return new;
+end if;
+return old;
+end;
+$$;
+
+create trigger turn_off_card_trigger
+after update
+of balance
+on bank_account
+for each row
+execute procedure turn_off_card();

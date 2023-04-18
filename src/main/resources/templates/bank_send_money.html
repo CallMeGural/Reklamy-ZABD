@@ -22,7 +22,11 @@
         <tr>
             <td>Balance</td>
             <td>:</td>
-            <td th:utext="${bankAccount.balance}">BALANCE</td>
+            <td th:utext="${bankAccount.balance}">BALANCE
+                <span class="validationError"
+                      th:if="${#fields.hasErrors('balance')}"
+                      th:errors="*{balance}"></span>
+            </td>
         </tr>
 
         <td>Przelew</td>

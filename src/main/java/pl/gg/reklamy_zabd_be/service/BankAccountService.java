@@ -7,6 +7,8 @@ import org.iban4j.Iban;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.gg.reklamy_zabd_be.pojo.BankAccount;
 import pl.gg.reklamy_zabd_be.pojo.Company;
 import pl.gg.reklamy_zabd_be.pojo.Seller;
@@ -39,12 +41,15 @@ public class BankAccountService {
     @Transactional
     public BankAccount updateBankAccount(BankAccount dto) {
         BankAccount update = getBankAccountById(dto.getId());
-        if(dto.getBalance()!=0.)
+//        if(dto.getBalance()!=0.)
             update.setBalance(dto.getBalance());
-        if(!dto.getCvc().equals(""))
+//        if(!dto.getCvc().equals(""))
             update.setCvc(dto.getCvc());
-        if(!dto.getCreditCardNumber().equals(""))
+//        if(!dto.getCreditCardNumber().equals(""))
             update.setCreditCardNumber(dto.getCreditCardNumber());
+            update.setCompany(dto.getCompany());
+            update.setStatus(dto.isStatus());
+
         update.setCompany(dto.getCompany());
         return bankAccountRepository.save(update);
     }

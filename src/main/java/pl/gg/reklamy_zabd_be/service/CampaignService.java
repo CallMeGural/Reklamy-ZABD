@@ -60,6 +60,7 @@ public class CampaignService {
     public void chargeCampaignWhenSiteOpened(int id) {
         Campaign campaignToCharge = campaignRepository.findById(id).orElseThrow();
         campaignToCharge.setFund(campaignToCharge.getFund()-campaignToCharge.getBid());
+        if(campaignToCharge.getFund()<campaignToCharge.getBid()) campaignToCharge.setStatus(false);
         campaignRepository.save(campaignToCharge);
     }
 
