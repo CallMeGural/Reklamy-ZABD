@@ -1,11 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-        lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Edytuj miasto</title>
 </head>
 <body>
+    <h1>Edytuj miasto</h1>
+    <a th:href="@{/cities/list}">Wróc do listy miast</a>
+    <br/>
+    <form th:action="@{/cities/{id}(id=${city.id})}"
+          th:object="${city}"
+          th:method="PUT">
+        <div th:if="${#fields.hasErrors()}">
+            <span class="validationError">
+                Usun problemy, sprobuj ponownie
+            </span>
+        </div>
+        <table>
+            <tr>
+                <td>ID</td>
+                <td>:</td>
+                <td th:utext="${city.id}">ID</td>
+            </tr>
 
+            <tr>
+                <td>Nazwa miasta</td>
+                <td>:</td>
+                <td>
+                    <input type="text" th:field="*{cityName}" />
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('cityName')}"
+                          th:errors="*{cityName}"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Zaludnienie</td>
+                <td>:</td>
+                <td>
+                    <input type="text" th:field="*{population}" />
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('population')}"
+                          th:errors="*{population}"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Obszar</td>
+                <td>:</td>
+                <td>
+                    <input type="text" th:field="*{area}" />
+                    <span class="validationError"
+                          th:if="${#fields.hasErrors('area')}"
+                          th:errors="*{area}"></span>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Aktualizuj" />
+    </form>
 </body>
 </html>

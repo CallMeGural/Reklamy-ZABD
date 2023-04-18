@@ -39,6 +39,7 @@ public class ProductController {
     public String getProductById(Model model, @PathVariable int id) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
+        model.addAttribute("sellers", sellerService.getAllSellers());
         return "product_edit";
     }
 
@@ -49,11 +50,12 @@ public class ProductController {
         return "product_form";
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public String updateProduct(@Valid @ModelAttribute("product") Product Product,
                                 Model model) {
         productService.updateProduct(Product);
         model.addAttribute("product", Product);
+        model.addAttribute("sellers", sellerService.getAllSellers());
         return "product_edit";
     }
 

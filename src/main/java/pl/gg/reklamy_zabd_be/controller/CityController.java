@@ -41,7 +41,7 @@ public class CityController {
         return "city_form";
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public String updateCity(@Valid @ModelAttribute("city") CityDto city,
                              Model model) {
         cityService.updateCity(city);

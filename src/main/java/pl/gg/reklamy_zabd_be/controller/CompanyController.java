@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import pl.gg.reklamy_zabd_be.pojo.City;
 import pl.gg.reklamy_zabd_be.pojo.Company;
@@ -43,9 +44,10 @@ public class CompanyController {
         return "company_form";
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public String updateCompany(@Valid @ModelAttribute("company") CompanyDto company,
-                             Model model) {
+                             Model model, Errors errors) {
+        //if(errors.hasErrors()) return "company_edit";
         companyService.updateCompany(company);
         model.addAttribute("company", company);
         return "company_edit";

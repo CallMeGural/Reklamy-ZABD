@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Lista miast</title>
 </head>
 <body>
+
+<table>
+    <tr>
+        <th>Nazwa miasta</th>
+        <th>Zaludnienie</th>
+        <th>Obszar</th>
+    </tr>
+
+    <tr th:each ="city : ${cities}">
+        <td th:text="${city.cityName}">NAME</td>
+        <td th:text="${city.population}">POPULATION</td>
+        <td th:text="${city.area}">AREA</td>
+        <td>
+            <a th:href="@{/cities/{id}(id=${city.id})}">
+                <input type="submit" value="Edytuj"/>
+            </a>
+        </td>
+        <td>
+            <form th:action="@{/cities/{id}(id=${city.id})}" th:method="DELETE">
+                <input type = "submit" value="Usuń"/>
+            </form>
+        </td>
+    </tr>
+</table>
+<a th:href="@{/}"><input type="submit" value="Menu"/></a>
+<a th:href="@{/cities/form}"><input type="submit" value="Utwórz nowe miasto"/></a>
 
 </body>
 </html>
