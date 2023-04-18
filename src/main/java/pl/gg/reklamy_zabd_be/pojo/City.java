@@ -1,6 +1,7 @@
 package pl.gg.reklamy_zabd_be.pojo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -18,8 +19,10 @@ public class City {
     @NotEmpty
     String cityName;
     @NotNull
+    @Min(value = 0)
     int population;
     @NotNull
+    @Min(value = 1)
     int area;
 
     @Override

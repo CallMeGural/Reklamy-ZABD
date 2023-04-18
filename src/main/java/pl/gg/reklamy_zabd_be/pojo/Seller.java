@@ -1,6 +1,7 @@
 package pl.gg.reklamy_zabd_be.pojo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class Seller {
     @NotEmpty(message = "podaj nazwe sprzedawcy")
     String name;
     @NotNull
+    @Min(value = 0)
     double balance;
     @ManyToOne
     Company company;

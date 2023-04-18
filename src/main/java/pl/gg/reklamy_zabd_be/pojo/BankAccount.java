@@ -1,11 +1,12 @@
 package pl.gg.reklamy_zabd_be.pojo;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.CreditCardNumber;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 @AllArgsConstructor
@@ -16,10 +17,14 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotEmpty(message = "podaj numer karty kredytowej")
+    @CreditCardNumber(message = "To nie jest prawidłowy numer karty kredytowej")
     private String creditCardNumber;
     @NotEmpty(message = "podaj numer cvc")
+    @Digits(integer = 3, fraction = 0, message = "Nieprawidłowy kod CVV")
     private String cvc;
     private boolean status;
+    @NotNull
+    @Min(value = 0)
     private double balance;
     @OneToOne
     @JoinColumn(name = "company_id")
